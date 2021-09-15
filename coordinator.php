@@ -1,4 +1,11 @@
 <?php 
+
+  function checkCoords($x, $y, $r) {
+    return ($x >= 0 && $y >= 0 && $x <= $r && $y <= $r) ||
+      ($x <= 0 && $y >= 0 && $x * $x + $y * $y <= ($r * $r) / 4) ||
+      ($x <= 0 && $y <= 0 && $y >= -$x - $r/2);
+  }
+
   $x_array = array();
   foreach ($_GET as $key => $value) {
     if ($key === "Y") {
@@ -10,10 +17,11 @@
     }
   }
 
+  $result = "<table><tbody><tr><th>X</th><th>Y</th><th>R</th><th>result</th></tr>";
   foreach ($x_array as $x) {
-    echo $x;
+    $result .= "<tr><td>".$x."</td><td>".$y."</td><td>".$r."</td><td>".(checkCoords($x, $y, $r) ? "true" : "false")."</td></tr>";
   }
-
-  echo $y;
-  echo $r;
+  $result .= "</tbody></table>";
+  
+  echo $result;
 ?>
