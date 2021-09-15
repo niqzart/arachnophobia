@@ -11,18 +11,21 @@
 
     body {
       margin: 0;
-      background-color: rgb(70, 70, 70);  /* this will be cascaded */
+      background-color: rgb(70, 70, 70);
+      /* this will be cascaded */
     }
 
-    #header {  /* id selector */
+    #header {
+      /* id selector */
       background-color: blue;
       padding: 10px 10px 30px 10px;
       border-bottom: 1px solid black;
     }
 
-    #header div {  /* inherited by all text inside header */
+    #header div {
+      /* inherited by all text inside header */
       float: left;
-      font-size: 20px;  
+      font-size: 20px;
       font-family: sans-serif;
     }
 
@@ -54,11 +57,13 @@
       border-color: white;
     }
 
-    select {  /* element selector */
+    select {
+      /* element selector */
       width: 40.6%;
     }
 
-    .text-input {  /* class selector */
+    .text-input {
+      /* class selector */
       width: 40%;
     }
 
@@ -75,16 +80,19 @@
       width: 30px;
     }
 
-    .checkboxes label > span {
+    .checkboxes label>span {
       font-family: serif;
     }
 
     .checkboxes input,
-    .checkboxes label span {  /* selector the last one */
+    .checkboxes label span {
+      /* selector the last one */
       vertical-align: middle;
     }
 
-    input:hover, select:hover {  /* pseudo class selector */
+    input:hover,
+    select:hover {
+      /* pseudo class selector */
       border-color: salmon;
     }
   </style>
@@ -106,7 +114,7 @@
   <div id="content">
     <form action="coordinator.php" method="GET" target="result">
       <p>
-      <h3></h3>
+        Input the data
       </p>
       <p class="checkboxes">
         <label>
