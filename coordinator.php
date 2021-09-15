@@ -1,9 +1,19 @@
 <?php 
+  $x_array = array();
   foreach ($_GET as $key => $value) {
-    if ($key === "Y" || $key === "R") {
-      echo "<h5>".$value."</h5>";
+    if ($key === "Y") {
+      $y = $value;
+    } elseif ($key === "R") {
+      $r = $value;
     } elseif ($value === "on") {
-      echo "<h5>".$key."</h5>";
+      array_push($x_array, $key);
     }
   }
+
+  foreach ($x_array as $x) {
+    echo $x;
+  }
+
+  echo $y;
+  echo $r;
 ?>
