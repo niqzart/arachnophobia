@@ -6,8 +6,11 @@
       ($x <= 0 && $y <= 0 && $y >= -$x - $r/2);
   }
 
+  $start_time = microtime(true);
+  $start_date = date("H:i:s");
   $x_array = array();
   $empty = false;
+
   foreach ($_GET as $key => $value) {
     if ($key === "empty") $empty = $value;
     elseif ($key === "Y") $y = $value;
@@ -15,10 +18,11 @@
     elseif ($value === "on") array_push($x_array, $key);
   }
 
-  $result = "<table><tbody><tr><th>X</th><th>Y</th><th>R</th><th>result</th></tr>";
+  $result = "<table><tbody><tr><th>X</th><th>Y</th><th>R</th><th>result</th><th>stating time</th><th>evaluation time</th></tr>";
   foreach ($x_array as $x) {
-    $result .= "<tr><td>".$x."</td><td>".$y."</td><td>".$r."</td><td>".
-      (checkCoords($x, $y, $r) ? "true" : "false")."</td></tr>";
+    $result .= "<tr><td>".$x."</td><td>".$y."</td><td>".$r."</td><td>";
+    $result .= (checkCoords($x, $y, $r) ? "true" : "false")."</td><td>";
+    $result .= $start_date."</td><td>".round(microtime(true) - $start_time, 8)."</td></tr>";
   }
   $result .= "</tbody></table>";
 
