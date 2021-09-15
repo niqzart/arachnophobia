@@ -4,14 +4,12 @@
 <head>
   <meta charset="utf-8" />
   <title>Potato</title>
+  <script src="static/validator.js"></script>
   <style>
-    * {
-      color: white;
-    }
-
     body {
       margin: 0;
       background-color: rgb(70, 70, 70);
+      color: white;
       /* this will be cascaded */
     }
 
@@ -60,6 +58,7 @@
       height: 30px;
       background-color: gray;
       border-color: white;
+      color: white;
     }
 
     select {
@@ -81,6 +80,10 @@
       margin-right: 1%;
     }
 
+    #message {
+      color: red;
+    }
+
     input {
       width: 30px;
     }
@@ -98,7 +101,7 @@
     input:hover,
     select:hover {
       /* pseudo class selector */
-      border-color: salmon;
+      border-color: khaki;
     }
 
     iframe {
@@ -123,59 +126,57 @@
   </div>
 
   <div id="content">
-    <form action="coordinator.php" method="GET" target="result">
-      <p>
-        Input the data
-      </p>
-      <p class="checkboxes">
+    <form action="coordinator.php" method="GET" target="result" onsubmit="onSubmit()">
+      <p>Input the data</p>
+      <p class="checkboxes var-p" id="x-p">
         <label>
           <span id="main-label">X:</span>
         </label>
         <label>
           <span>-5</span>
-          <input type="checkbox" name=-5 id="X-5">
+          <input type="checkbox" name=-5 id="X-5" onclick="hideErrorMessages()">
         </label>
         <label>
           <span>-4</span>
-          <input type="checkbox" name=-4 id="X-4">
+          <input type="checkbox" name=-4 id="X-4" onclick="hideErrorMessages()">
         </label>
         <label>
           <span>-3</span>
-          <input type="checkbox" name=-3 id="X-3">
+          <input type="checkbox" name=-3 id="X-3" onclick="hideErrorMessages()">
         </label>
         <label>
           <span>-2</span>
-          <input type="checkbox" name=-2 id="X-2">
+          <input type="checkbox" name=-2 id="X-2" onclick="hideErrorMessages()">
         </label>
         <label>
           <span>-1</span>
-          <input type="checkbox" name=-1 id="X-1">
+          <input type="checkbox" name=-1 id="X-1" onclick="hideErrorMessages()">
         </label>
         <label>
           <span>0</span>
-          <input type="checkbox" name=0 id="X+0">
+          <input type="checkbox" name=0 id="X+0" onclick="hideErrorMessages()">
         </label>
         <label>
           <span>1</span>
-          <input type="checkbox" name=1 id="X+1">
+          <input type="checkbox" name=1 id="X+1" onclick="hideErrorMessages()">
         </label>
         <label>
           <span>2</span>
-          <input type="checkbox" name=2 id="X+2">
+          <input type="checkbox" name=2 id="X+2" onclick="hideErrorMessages()">
         </label>
         <label>
           <span>3</span>
-          <input type="checkbox" name=3 id="X+3">
+          <input type="checkbox" name=3 id="X+3" onclick="hideErrorMessages()">
         </label>
       </p>
-      <p>
+      <p id="y-p" class="var-p">
         <span id="main-label">Y:</span>
-        <input class="text-input" name="Y">
+        <input class="text-input" name="Y" oninput="onInputY()" id="y-input">
       </p>
-      <p>
+      <p id="r-p" class="var-p">
         <span id="main-label">R:</span>
-        <select name="R" value=null>
-          <option value=null></option>
+        <select name="R" value="" id="r-select" onclick="hideErrorMessages()">
+          <option value=""></option>
           <option value=1>1</option>
           <option value=1.5>1.5</option>
           <option value=2>2</option>
@@ -186,6 +187,7 @@
       <p>
         <input type="submit" id="send-button">
       </p>
+      <p id="message" style="visibility: hidden"></p>
     </form>
 
     <iframe name="result" src="coordinator.php?empty=true">
