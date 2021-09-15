@@ -104,7 +104,7 @@
   </div>
 
   <div id="content">
-    <form action="coordinator.php" method="GET">
+    <form action="coordinator.php" method="GET" target="result">
       <p>
       <h3></h3>
       </p>
@@ -112,23 +112,23 @@
         <label>
           <span id="main-label">X:</span>
           <span>-5</span>
-          <input type="checkbox" name="X" value=-5>
+          <input type="checkbox" name=-5>
           <span>-4</span>
-          <input type="checkbox" name="X" value=-4>
+          <input type="checkbox" name=-4>
           <span>-3</span>
-          <input type="checkbox" name="X" value=-3>
+          <input type="checkbox" name=-3>
           <span>-2</span>
-          <input type="checkbox" name="X" value=-2>
+          <input type="checkbox" name=-2>
           <span>-1</span>
-          <input type="checkbox" name="X" value=-1>
+          <input type="checkbox" name=-1>
           <span>0</span>
-          <input type="checkbox" name="X" value=0>
+          <input type="checkbox" name=0>
           <span>1</span>
-          <input type="checkbox" name="X" value=1>
+          <input type="checkbox" name=1>
           <span>2</span>
-          <input type="checkbox" name="X" value=2>
+          <input type="checkbox" name=2>
           <span>3</span>
-          <input type="checkbox" name="X" value=3>
+          <input type="checkbox" name=3>
         </label>
       </p>
       <p>
@@ -150,6 +150,10 @@
         <input type="submit" id="send-button">
       </p>
     </form>
+
+    <iframe name="result" src="coordinator.php">
+
+    </iframe>
 
   </div>
 </body>

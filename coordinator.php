@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-  <title>Embed PHP in a .html File</title>
-</head>
-
-<body>
-  <h1>
-    <?php echo "Hello World" ?>
-  </h1>
-</body>
-
-</html>
+<?php 
+  foreach ($_GET as $key => $value) {
+    if ($key === "Y" || $key === "R") {
+      echo "<h5>".$value."</h5>";
+    } elseif ($value === "on") {
+      echo "<h5>".$key."</h5>";
+    }
+  }
+?>
