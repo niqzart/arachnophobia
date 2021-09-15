@@ -7,21 +7,21 @@
   }
 
   $x_array = array();
+  $empty = false;
   foreach ($_GET as $key => $value) {
-    if ($key === "Y") {
-      $y = $value;
-    } elseif ($key === "R") {
-      $r = $value;
-    } elseif ($value === "on") {
-      array_push($x_array, $key);
-    }
+    if ($key === "empty") $empty = $value;
+    elseif ($key === "Y") $y = $value;
+    elseif ($key === "R") $r = $value;
+    elseif ($value === "on") array_push($x_array, $key);
   }
 
   $result = "<table><tbody><tr><th>X</th><th>Y</th><th>R</th><th>result</th></tr>";
   foreach ($x_array as $x) {
-    $result .= "<tr><td>".$x."</td><td>".$y."</td><td>".$r."</td><td>".(checkCoords($x, $y, $r) ? "true" : "false")."</td></tr>";
+    $result .= "<tr><td>".$x."</td><td>".$y."</td><td>".$r."</td><td>".
+      (checkCoords($x, $y, $r) ? "true" : "false")."</td></tr>";
   }
   $result .= "</tbody></table>";
-  
-  echo $result;
+
+  if ($empty) echo "<img src=\"static/areas.png\">";
+  else echo $result;
 ?>
