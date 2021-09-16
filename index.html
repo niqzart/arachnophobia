@@ -7,10 +7,11 @@
   <script src="static/validator.js"></script>
   <style>
     body {
+      /* this will be cascaded */
       margin: 0;
       background-color: rgb(70, 70, 70);
       color: white;
-      /* this will be cascaded */
+      user-select: none;
     }
 
     #header {
@@ -43,7 +44,6 @@
     }
 
     #content {
-      user-select: none;
       text-align: center;
     }
 
@@ -191,7 +191,7 @@
     </form>
 
     <iframe name="result" src="coordinator.php?empty=true">
-
+      server crashed
     </iframe>
 
   </div>

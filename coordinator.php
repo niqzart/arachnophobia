@@ -24,7 +24,7 @@
       </style></head><body>".$html."</body></html>";
   }
 
-  function checkCoords($x, $y, $r) {
+  function check_coords($x, $y, $r) {
     return ($x >= 0 && $y >= 0 && $x <= $r && $y <= $r) ||
       ($x <= 0 && $y >= 0 && $x * $x + $y * $y <= ($r * $r) / 4) ||
       ($x <= 0 && $y <= 0 && $y >= -$x - $r/2);
@@ -53,7 +53,7 @@
     $start_time = microtime(true);
     $start_date = date("H:i:s");
 
-    $check = checkCoords($x, $y, $r) ? "true" : "false";
+    $check = check_coords($x, $y, $r) ? "true" : "false";
     $eval_time = round(microtime(true) - $start_time, 8);
 
     array_push($_SESSION["result_history"], array($x, $y, $r, $check, $start_date, $eval_time));
