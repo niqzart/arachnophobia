@@ -37,9 +37,6 @@ function onInputY() {
   } else if (value > 5) {
     showErrorMessage("y", "Y can't be higher than 5")
     clearY(node)
-  } else if (value.length > 2) {
-    showErrorMessage("y", "Y value is too long")
-    clearY(node)
   }
 }
 
