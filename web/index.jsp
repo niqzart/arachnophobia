@@ -1,3 +1,5 @@
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
+
 <head>
   <meta charset="utf-8" />
   <title>Lab 1</title>
@@ -50,7 +52,7 @@
     }
 
     input,
-    select,
+    button,
     .text-input {
       height: 30px;
       background-color: gray;
@@ -112,13 +114,13 @@
 <body>
   <div id="header">
     <div id="left-panel">
-      Нестеров Николай Константинович
+      Нестеров
     </div>
     <div id="center-panel">
       P3230
     </div>
     <div id="right-panel">
-      Вариант: 30011
+      Вариант: 30311
     </div>
   </div>
 
@@ -129,42 +131,21 @@
         <label>
           <span id="main-label">X:</span>
         </label>
-        <label>
-          <span>-5</span>
-          <input type="checkbox" name=-5 id="X-5" onclick="hideErrorMessages()">
-        </label>
-        <label>
-          <span>-4</span>
-          <input type="checkbox" name=-4 id="X-4" onclick="hideErrorMessages()">
-        </label>
-        <label>
-          <span>-3</span>
-          <input type="checkbox" name=-3 id="X-3" onclick="hideErrorMessages()">
-        </label>
-        <label>
-          <span>-2</span>
-          <input type="checkbox" name=-2 id="X-2" onclick="hideErrorMessages()">
-        </label>
-        <label>
-          <span>-1</span>
-          <input type="checkbox" name=-1 id="X-1" onclick="hideErrorMessages()">
-        </label>
-        <label>
-          <span>0</span>
-          <input type="checkbox" name=0 id="X+0" onclick="hideErrorMessages()">
-        </label>
-        <label>
-          <span>1</span>
-          <input type="checkbox" name=1 id="X+1" onclick="hideErrorMessages()">
-        </label>
-        <label>
-          <span>2</span>
-          <input type="checkbox" name=2 id="X+2" onclick="hideErrorMessages()">
-        </label>
-        <label>
-          <span>3</span>
-          <input type="checkbox" name=3 id="X+3" onclick="hideErrorMessages()">
-        </label>
+
+        <% for (float x = -2; x < 2.5; x += 0.5) { %>
+          <label>
+            <span>
+              <%if (x % 1 == 0) {%>
+                <%=(int)x %>
+              <%} else {%>
+                <%=x %>
+              <%} %>
+            </span>
+            <input type="checkbox" name="<%=x %>" id="X<%=x %>" onclick="hideErrorMessages()">
+          </label>
+          <% if (x == -0.5) { %><br><%}%>
+        <%}%>
+
       </p>
       <p id="y-p" class="var-p">
         <span id="main-label">Y:</span>
@@ -172,14 +153,11 @@
       </p>
       <p id="r-p" class="var-p">
         <span id="main-label">R:</span>
-        <select name="R" value="" id="r-select" onclick="hideErrorMessages()">
-          <option value=""></option>
-          <option value=1>1</option>
-          <option value=1.5>1.5</option>
-          <option value=2>2</option>
-          <option value=2.5>2.5</option>
-          <option value=3>3</option>
-        </select>
+
+        <% for (int r = 0; r < 6; r++) { %>
+        <button name="<%=r %>" id="R<%=r %>" onclick="onInputR(<%=r %>)"><%=r %></button>
+        <%}%>
+
       </p>
       <p>
         <input type="submit" id="send-button">
