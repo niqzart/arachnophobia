@@ -124,52 +124,61 @@
     </div>
   </div>
 
-  <div id="content">
-    <form action="coordinator.php" method="GET" target="result" onsubmit="onSubmit()">
-      <p>Input the data</p>
-      <p class="checkboxes var-p" id="x-p">
-        <label>
-          <span id="main-label">X:</span>
-        </label>
-
-        <% for (float x = -2; x < 2.5; x += 0.5) { %>
-          <label>
-            <span>
-              <%if (x % 1 == 0) {%>
-                <%=(int)x %>
-              <%} else {%>
-                <%=x %>
-              <%} %>
-            </span>
-            <input type="checkbox" name="<%=x %>" id="X<%=x %>" onclick="hideErrorMessages()">
-          </label>
-          <% if (x == -0.5) { %><br><%}%>
-        <%}%>
-
-      </p>
-      <p id="y-p" class="var-p">
-        <span id="main-label">Y:</span>
-        <input class="text-input" name="Y" oninput="onInputY()" id="y-input">
-      </p>
-      <p id="r-p" class="var-p">
-        <span id="main-label">R:</span>
-
-        <% for (int r = 0; r < 6; r++) { %>
-        <button name="<%=r %>" id="R<%=r %>" onclick="onInputR(<%=r %>)"><%=r %></button>
-        <%}%>
-
-      </p>
-      <p>
-        <input type="submit" id="send-button">
-      </p>
-      <p id="message" style="visibility: hidden"></p>
-    </form>
-
-    <iframe name="result" src="coordinator.php?empty=true">
-      server crashed
-    </iframe>
-
-  </div>
+  <table id="content">
+    <tbody>
+      <tr>
+        <td>
+          <form action="coordinator.php" method="GET" target="result" onsubmit="onSubmit()">
+            <p>Input the data</p>
+            <p class="checkboxes var-p" id="x-p">
+              <label>
+                <span id="main-label">X:</span>
+              </label>
+      
+              <% for (float x = -2; x < 2.5; x += 0.5) { %>
+                <label>
+                  <span>
+                    <%if (x % 1 == 0) {%>
+                      <%=(int)x %>
+                    <%} else {%>
+                      <%=x %>
+                    <%} %>
+                  </span>
+                  <input type="checkbox" name="<%=x %>" id="X<%=x %>" onclick="hideErrorMessages()">
+                </label>
+                <% if (x == -0.5) { %><br><%}%>
+              <%}%>
+      
+            </p>
+            <p id="y-p" class="var-p">
+              <span id="main-label">Y:</span>
+              <input class="text-input" name="Y" oninput="onInputY()" id="y-input">
+            </p>
+            <p id="r-p" class="var-p">
+              <span id="main-label">R:</span>
+      
+              <% for (int r = 0; r < 6; r++) { %>
+              <button name="<%=r %>" id="R<%=r %>" onclick="onInputR(<%=r %>)"><%=r %></button>
+              <%}%>
+      
+            </p>
+            <p>
+              <input type="submit" id="send-button">
+            </p>
+            <p id="message" style="visibility: hidden"></p>
+          </form>
+        </td>
+        <td>
+          <canvas id="point-area" onclick="onClickCanvas()"></canvas>
+        </td>
+      </tr>
+      <tr><td colspan="2">
+        <iframe name="result" src="coordinator.php?empty=true">
+          server crashed
+        </iframe>
+      </td></tr>
+    </tbody>
+  </table>
 </body>
 
 </html>
