@@ -1,4 +1,33 @@
+const points = []
+
+function drawPoint({ x, y, inside }, r) {
+  console.log("drawPoint")
+
+  const canvas = document.getElementById("point-area")
+  const context = canvas.getContext("2d")
+  const point_size = 10
+
+  context.beginPath()
+  context.rect(
+    canvas.width / 2 + (x / r * 130) - point_size / 2,
+    canvas.height / 2 - (y / r * 130) - point_size / 2,
+    point_size, point_size
+  )
+  context.closePath()
+
+  context.strokeStyle = "black"
+  context.fillStyle = inside ? "lime" : "red"
+  context.fill()
+  context.stroke()
+}
+
+function recreatePoints(r) {
+  console.log("recreate")
+  for (let point of points) drawPoint(point, r)
+}
+
 function fillCanvas() {
+  console.log("fill")
   const canvas = document.getElementById("point-area")
   const size = 300
   canvas.width = size
@@ -119,6 +148,33 @@ function fillCanvas() {
   context.strokeStyle = "black"
   context.fillStyle = "black"
   context.stroke()
+
+  if (r !== "") recreatePoints(r)
+}
+
+function onClickCanvas() {
+  console.log("click")
+  const r = document.getElementById("r-input").value
+
+  const canvas = document.getElementById("point-area")
+
+  if (r === "") {
+    fillCanvas()
+    const context = canvas.getContext("2d")
+    context.strokeStyle = "#000000"
+    context.fillStyle = "#ff0000"
+    context.font = "20px Arial"
+    context.fillText("Value of R has to be set", 20, 50)
+    return
+  }
+
+  const br = canvas.getBoundingClientRect();
+  const event = window.event
+  const x = (event.clientX - br.left - canvas.width / 2) / 130 * r
+  const y = (-event.clientY + br.top + canvas.height / 2) / 130 * r
+
+  drawPoint({ x, y, inside: true }, r)
+  points.push({ x, y, inside: true })
 }
 
 window.onload = fillCanvas
