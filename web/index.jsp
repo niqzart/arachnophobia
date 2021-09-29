@@ -158,10 +158,11 @@
               <span id="main-label">R:</span>
       
               <% for (int r = 0; r < 6; r++) { %>
-              <button name="<%=r %>" id="R<%=r %>" onclick="onInputR(<%=r %>)"><%=r %></button>
+              <button type="button" name="<%=r %>" id="R<%=r %>" onclick="onInputR(<%=r %>)"><%=r %></button>
               <%}%>
       
-            </p>
+              <input name="R" id="r-input" style="display: none;" value="">
+            </p>s
             <p>
               <input type="submit" id="send-button">
             </p>

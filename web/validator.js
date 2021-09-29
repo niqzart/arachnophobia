@@ -34,10 +34,17 @@ function onInputY() {
   } else if (value < -3) {
     showErrorMessage("y", "Y can't be lower than -3")
     clearY(node)
-  } else if (value > 5) {
+  } else if (value > 3) {
     showErrorMessage("y", "Y can't be higher than 5")
     clearY(node)
   }
+}
+
+function onInputR(newR) {
+  for (let r = 0; r < 6; r++) document.getElementById("R" + r).style.filter = ""
+  document.getElementById("R" + newR).style.filter = "invert(100%)"
+
+  document.getElementById("r-input").value = newR
 }
 
 function isYValueBad() {
@@ -50,10 +57,10 @@ function onSubmit() {
   const errors = {
     x: true, 
     y: isYValueBad(),
-    r: document.getElementById("r-select").value === "",
+    r: document.getElementById("r-input").value === "",
   }
 
-  for (let id of ["X-5", "X-4", "X-3", "X-2", "X-1", "X+0", "X+1", "X+2", "X+3"]) {
+  for (let id of ["X-2.0", "X-1.5", "X-1.0", "X-0.5", "X0.0", "X0.5", "X1.0", "X1.5", "X2.0"]) {
     if (document.getElementById(id).checked) {
       errors.x = false
       break
