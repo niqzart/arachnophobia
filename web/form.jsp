@@ -25,7 +25,7 @@
     <tbody>
       <tr>
         <td>
-          <form action="check" method="POST" target="result" onsubmit="onSubmit()">
+          <form action="" method="POST" target="result" onsubmit="onSubmit()">
             <p>Input the data</p>
             <p class="checkboxes var-p" id="x-p">
               <label>
@@ -83,7 +83,7 @@
         </td>
       </tr>
       <tr><td colspan="2">
-        <iframe name="result" src="check">
+        <iframe name="result" src="">
           server crashed
         </iframe>
       </td></tr>
