@@ -6,14 +6,19 @@ import java.io.IOException;
 
 public class ControllerServlet extends HttpServlet {
 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.getRequestDispatcher("form.jsp").forward(request, response);
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String x = request.getParameter("x");
-        String y = request.getParameter("y");
-        String r = request.getParameter("r");
+        String y = request.getParameter("Y");
+        String r = request.getParameter("R");
+        System.out.println(y);
+        System.out.println(r);
 
-        request.getRequestDispatcher((x == null || y == null || r == null) ? "/index.jsp" : "/check").forward(request,
-                response);
+        request.getRequestDispatcher((y == null || r == null) ? "from.jsp" : "check").forward(request, response);
     }
 
 }
