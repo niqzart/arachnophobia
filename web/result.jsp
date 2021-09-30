@@ -2,28 +2,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <style>
-    .result-table  {
-      width: 100%;
-      text-align: center;
-      border-collapse: collapse;
-      color: white;
-    }
-
-    .result-table td,
-    .result-table th {
-      border: 1px solid gray;
-    }
-
-    .result-table th {
-      width: 12.5%;
-      border-bottom: 2px solid gray;
-    }
-
-    .result-table .time-cell {
-      width: 25%;
-    }
-  </style>
+  <style> <%@include file="styles.css" %> </style>
 </head>
 
 <body>
