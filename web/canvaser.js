@@ -1,24 +1,30 @@
 const points = []
 
-function drawPoint({ x, y, inside }, r) {
+function drawPoint({ x, y }, r) {
   console.log("drawPoint")
 
-  const canvas = document.getElementById("point-area")
-  const context = canvas.getContext("2d")
-  const point_size = 10
+  fetch("./?X=" + x + "&Y=" + y + "&R=" + r, {
+    method: "POST",
+    headers: { "Content-Type": "text/plain;charset=UTF-8" }
+  }).then(response => response.text())
+    .then(inside => {
+      const canvas = document.getElementById("point-area")
+      const context = canvas.getContext("2d")
+      const point_size = 10
 
-  context.beginPath()
-  context.rect(
-    canvas.width / 2 + (x / r * 130) - point_size / 2,
-    canvas.height / 2 - (y / r * 130) - point_size / 2,
-    point_size, point_size
-  )
-  context.closePath()
+      context.beginPath()
+      context.rect(
+        canvas.width / 2 + (x / r * 130) - point_size / 2,
+        canvas.height / 2 - (y / r * 130) - point_size / 2,
+        point_size, point_size
+      )
+      context.closePath()
 
-  context.strokeStyle = "black"
-  context.fillStyle = inside ? "lime" : "red"
-  context.fill()
-  context.stroke()
+      context.strokeStyle = "black"
+      context.fillStyle = inside === "true" ? "lime" : "red"
+      context.fill()
+      context.stroke()
+    })
 }
 
 function recreatePoints(r) {
@@ -173,8 +179,8 @@ function onClickCanvas() {
   const x = (event.clientX - br.left - canvas.width / 2) / 130 * r
   const y = (-event.clientY + br.top + canvas.height / 2) / 130 * r
 
-  drawPoint({ x, y, inside: true }, r)
-  points.push({ x, y, inside: true })
+  drawPoint({ x, y }, r)
+  points.push({ x, y })
 }
 
 window.onload = fillCanvas
