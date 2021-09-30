@@ -13,8 +13,6 @@
         <th>Y</th>
         <th>R</th>
         <th>Result</th>
-        <th class="time-cell">Stating Time</th>
-        <th class="time-cell">Evaluation Time</th>
       </tr>
     </tbody>
   </table>

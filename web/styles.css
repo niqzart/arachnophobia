@@ -35,7 +35,7 @@ body {
   text-align: right;
 }
 
-#content {
+table {
   text-align: center;
   width: 100%;
 }
@@ -104,8 +104,6 @@ iframe {
 }
 
 .result-table  {
-  width: 100%;
-  text-align: center;
   border-collapse: collapse;
   color: white;
 }
@@ -116,10 +114,6 @@ iframe {
 }
 
 .result-table th {
-  width: 12.5%;
-  border-bottom: 2px solid gray;
-}
-
-.result-table .time-cell {
   width: 25%;
+  border-bottom: 2px solid gray;
 }
