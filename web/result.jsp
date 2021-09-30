@@ -3,31 +3,31 @@
 <head>
   <meta charset="utf-8" />
   <style>
-    table {
+    .result-table  {
       width: 100%;
       text-align: center;
       border-collapse: collapse;
       color: white;
     }
 
-    td,
-    th {
+    .result-table td,
+    .result-table th {
       border: 1px solid gray;
     }
 
-    th {
+    .result-table th {
       width: 12.5%;
       border-bottom: 2px solid gray;
     }
 
-    .time-cell {
+    .result-table .time-cell {
       width: 25%;
     }
   </style>
 </head>
 
 <body>
-  <table>
+  <table class="result-table">
     <tbody>
       <tr>
         <th>X</th>
