@@ -27,19 +27,20 @@ public class AreaCheckServlet extends HttpServlet {
             }
         }
 
-        double y = Double.parseDouble(request.getParameter("Y"));
-        int r = Integer.parseInt(request.getParameter("R"));
+        try {
+            double y = Double.parseDouble(request.getParameter("Y"));
+            int r = Integer.parseInt(request.getParameter("R"));
 
-        Map<String, Object> parameters = request.getParameterMap();
-        parameters.forEach((key, value) -> {
-            if (request.getParameter(key).equals("on")) {
-                double x = Double.parseDouble(key);
-                points.add(new Point(x, y, r));
-                System.out.println(x);
-                System.out.println(y);
-                System.out.println(r);
-            }
-        });
+            Map<String, Object> parameters = request.getParameterMap();
+            parameters.forEach((key, value) -> {
+                if (request.getParameter(key).equals("on")) {
+                    double x = Double.parseDouble(key);
+                    points.add(new Point(x, y, r));
+                }
+            });
+        } catch (NumberFormatException e) {
+            System.err.println("Received wrong parameters");
+        }
 
         session.setAttribute("points", points);
 
