@@ -16,3 +16,19 @@
 - Любые некорректные значения (например, буквы в координатах точки или отрицательный радиус) должны блокироваться.
 
 ![areas](web/areas.png)
+
+
+### To Compile:
+```sh
+javac -cp "C:\Program Files\Java\javax.servlet.jar" src/*
+cp src/*.class web/WEB-INF/classes/
+rm src/*.class
+cd web
+jar -cvf ../test.war *
+cd ..
+```
+
+### To start:
+```sh
+bash wildfly/bin/standalone.sh
+```
