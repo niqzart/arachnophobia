@@ -35,12 +35,13 @@ function onInputY() {
     showErrorMessage("y", "Y can't be lower than -3")
     clearY(node)
   } else if (value > 3) {
-    showErrorMessage("y", "Y can't be higher than 5")
+    showErrorMessage("y", "Y can't be higher than 3")
     clearY(node)
   }
 }
 
 function onInputR(newR) {
+  hideErrorMessages()
   if (document.getElementById("r-input").value == newR) return false
 
   for (let r = 1; r < 6; r++) document.getElementById("R" + r).style.filter = ""

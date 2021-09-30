@@ -71,7 +71,7 @@
               <%}%>
       
               <input name="R" id="r-input" style="display: none;" value="">
-            </p>s
+            </p>
             <p>
               <input type="submit" id="send-button">
             </p>
