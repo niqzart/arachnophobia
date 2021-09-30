@@ -20,11 +20,14 @@
       </tr>
       <%
         HttpSession session = request.getSession(false);
+
+        int newRows = (int) session.getAttribute("new-rows");
         ArrayList<Point> points = (ArrayList<Point>) session.getAttribute("points");
         Collections.reverse(points);
+        
         for (Point point : points) {
       %>
-        <tr>
+        <tr style="color: <%=(newRows-- > 0 ? "lime" : "white") %>">
           <th><%=point.x %></th>
           <th><%=point.y %></th>
           <th><%=point.r %></th>
