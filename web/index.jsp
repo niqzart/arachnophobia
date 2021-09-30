@@ -129,7 +129,7 @@
     <tbody>
       <tr>
         <td>
-          <form action="coordinator.php" method="GET" target="result" onsubmit="onSubmit()">
+          <form action="check" method="POST" target="result" onsubmit="onSubmit()">
             <p>Input the data</p>
             <p class="checkboxes var-p" id="x-p">
               <label>
@@ -145,7 +145,12 @@
                       <%=x %>
                     <%} %>
                   </span>
-                  <input type="checkbox" name="<%=x %>" id="X<%=x %>" onclick="hideErrorMessages()">
+                  <input 
+                    type="checkbox" 
+                    name="<%=x %>" 
+                    id="X<%=x %>" 
+                    onclick="hideErrorMessages()"
+                  >
                 </label>
                 <% if (x == -0.5) { %><br><%}%>
               <%}%>
@@ -158,8 +163,15 @@
             <p id="r-p" class="var-p">
               <span id="main-label">R:</span>
       
-              <% for (int r = 0; r < 6; r++) { %>
-              <button type="button" name="<%=r %>" id="R<%=r %>" onclick="onInputR(<%=r %>)"><%=r %></button>
+              <% for (int r = 1; r < 6; r++) { %>
+              <button 
+                type="button" 
+                name="<%=r %>" 
+                id="R<%=r %>" 
+                onclick="if (onInputR(<%=r %>)) fillCanvas()"
+              >
+                <%=r %>
+              </button>
               <%}%>
       
               <input name="R" id="r-input" style="display: none;" value="">
@@ -175,7 +187,7 @@
         </td>
       </tr>
       <tr><td colspan="2">
-        <iframe name="result" src="coordinator.php?empty=true">
+        <iframe name="result" src="check">
           server crashed
         </iframe>
       </td></tr>

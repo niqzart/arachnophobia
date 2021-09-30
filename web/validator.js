@@ -41,10 +41,13 @@ function onInputY() {
 }
 
 function onInputR(newR) {
-  for (let r = 0; r < 6; r++) document.getElementById("R" + r).style.filter = ""
+  if (document.getElementById("r-input").value == newR) return false
+
+  for (let r = 1; r < 6; r++) document.getElementById("R" + r).style.filter = ""
   document.getElementById("R" + newR).style.filter = "invert(100%)"
 
   document.getElementById("r-input").value = newR
+  return true
 }
 
 function isYValueBad() {
@@ -53,6 +56,7 @@ function isYValueBad() {
 }
 
 function onSubmit() {
+  hideErrorMessages()
 
   const errors = {
     x: true, 
