@@ -2,7 +2,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>Lab 1</title>
+  <title>Lab 2</title>
   <script type="text/javascript"> <%@include file="validator.js" %> </script>
   <script type="text/javascript"> <%@include file="canvaser.js" %> </script>
   <style> <%@include file="styles.css" %> </style>
@@ -11,7 +11,7 @@
 <body>
   <div id="header">
     <div id="left-panel">
-      Нестеров
+      Нестеров Николай
     </div>
     <div id="center-panel">
       P3230
