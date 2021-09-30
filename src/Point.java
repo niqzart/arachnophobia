@@ -8,6 +8,8 @@ public class Point {
         this.x = x;
         this.y = y;
         this.r = r;
-        this.inside = false; // add the actual check
+        boolean inside = (x >= 0) && (x <= r / 2) && (y >= 2 * x - r) && (y <= r);
+        inside = inside || ((x <= 0) && (y <= 0) && (x * x + y * y <= r * r / 4));
+        this.inside = inside;
     }
 }
