@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <title>Lab 1</title>
-  <script src="static/validator.js"></script>
+  <script type="text/javascript"> <%@include file="validator.js" %> </script>
+  <script type="text/javascript"> <%@include file="canvaser.js" %> </script>
   <style>
     body {
       /* this will be cascaded */
