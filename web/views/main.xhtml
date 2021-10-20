@@ -28,7 +28,11 @@
       </h:form>
     </div>
     <div id="clock-container">
-      <div id="clock"></div>
+      <div id="clock-box" onmouseover="teleportClock()" onclick="hitClock()">
+        <div id="clock">
+        </div>
+        <div id="hit-counter"> </div>
+      </div>
     </div>
   </h:body>
 </f:view>
