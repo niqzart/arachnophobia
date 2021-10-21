@@ -5,7 +5,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:pf="http://primefaces.org/ui">
 <body>
 <ui:composition template="/views/template.xhtml">
 
@@ -21,51 +21,64 @@
       <tbody>
       <tr>
         <td>
-          <form action="" method="post" target="result" onsubmit="onSubmit()">
-            <p>Input the data</p>
-            <p class="checkboxes var-p" id="x-p">
+          <h:form action="" method="POST">
+            <fieldset>
+              <p>Input the data</p>
+              <span class="checkboxes var-p" id="x-p">
               <label>
                 <span class="main-label">X:</span>
               </label>
-
               <c:forEach var="x" begin="0" end="8">
                 <label>
-                  <span>#{x - 4}</span>
-                  <input
-                          type="checkbox"
-                          name="#{x - 4}"
-                          id="X#{x - 4}"
-                          onclick="hideErrorMessages()"/>
+                  <h:commandButton id="X#{x - 4}"
+                                   value="#{x - 4}"
+                                   action="#{mainBean.setX(x - 4)}">
+                    <!--<f:ajax execute="@form" render="@form results"/>-->
+                  </h:commandButton>
+                  <span> </span>
                 </label>
-                <!--<% if (x == -0.5) { %><br><%}%>-->
               </c:forEach>
-
-            </p>
-            <p id="y-p" class="var-p">
-              <span class="main-label">Y:</span>
-              <input class="text-input" name="Y" oninput="onInputY()" id="y-input"/>
-            </p>
-            <p id="r-p" class="var-p">
-              <span class="main-label">R:</span>
-
-              <c:forEach var="r" begin="1" end="5">
-                <button
-                        type="button"
-                        name="#{r}"
-                        id="R#{r}"
-                        onclick="if (onInputR(#{r})) fillCanvas()"
+            </span>
+              <p id="y-p" class="var-p">
+                <span class="main-label">Y:</span>
+                <pf:inputText id="y-input"
+                              type="text"
+                              class="text-input"
+                              maxlength="8"
+                              value="#{mainBean.y}"
+                              widgetVar="y-input"
                 >
-                  #{r}
-                </button>
-              </c:forEach>
-
-              <input name="R" id="r-input" style="display: none;" value=""/>
-            </p>
-            <p>
-              <input type="submit" id="send-button"/>
-            </p>
-            <p id="message" style="visibility: hidden"/>
-          </form>
+                  <f:validateDoubleRange minimum="-5" maximum="5"/>
+                </pf:inputText>
+              </p>
+              <p id="r-p" class="var-p">
+                <span class="main-label">R:</span>
+                <pf:spinner id="r-input"
+                            rotate="true"
+                            stepFactor="0.1"
+                            min="0.1"
+                            max="3"
+                            decimalSeparator="."
+                            value="#{mainBean.r}"
+                            widgetVar="x-input"
+                >
+                  <f:validateDoubleRange minimum="0.1" maximum="3"/>
+                </pf:spinner>
+              </p>
+              <p>
+                <pf:commandButton value="Submit"
+                                  action="#{mainBean.addPoint}"
+                                  widgetVar="submit-button"
+                >
+                  <!--
+                  update="@form"
+                  onsuccess="loadPointsFromTable()"
+                  -->
+                </pf:commandButton>
+              </p>
+              <p id="messages" style="visibility: hidden"/>
+            </fieldset>
+          </h:form>
         </td>
         <td>
           <canvas id="point-area" onclick="onClickCanvas()"/>
