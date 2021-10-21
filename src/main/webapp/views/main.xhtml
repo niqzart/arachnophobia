@@ -18,66 +18,91 @@
 
   <ui:define name="content">
     <table id="content">
-    <tbody>
-    <tr>
-      <td>
-        <form action="" method="post" target="result" onsubmit="onSubmit()">
-          <p>Input the data</p>
-          <p class="checkboxes var-p" id="x-p">
-            <label>
-              <span id="main-label">X:</span>
-            </label>
+      <tbody>
+      <tr>
+        <td>
+          <form action="" method="post" target="result" onsubmit="onSubmit()">
+            <p>Input the data</p>
+            <p class="checkboxes var-p" id="x-p">
+              <label>
+                <span id="main-label">X:</span>
+              </label>
 
-            <c:forEach var="x" begin="0" end="8">
-            <label>
+              <c:forEach var="x" begin="0" end="8">
+                <label>
                   <span>#{x - 4}</span>
-              <input
-                      type="checkbox"
-                      name="#{x - 4}"
-                      id="X#{x - 4}"
-                      onclick="hideErrorMessages()"/>
-            </label>
-            <!--<% if (x == -0.5) { %><br><%}%>-->
+                  <input
+                          type="checkbox"
+                          name="#{x - 4}"
+                          id="X#{x - 4}"
+                          onclick="hideErrorMessages()"/>
+                </label>
+                <!--<% if (x == -0.5) { %><br><%}%>-->
+              </c:forEach>
+
+            </p>
+            <p id="y-p" class="var-p">
+              <span id="main-label">Y:</span>
+              <input class="text-input" name="Y" oninput="onInputY()" id="y-input"/>
+            </p>
+            <p id="r-p" class="var-p">
+              <span id="main-label">R:</span>
+
+              <c:forEach var="r" begin="1" end="5">
+                <button
+                        type="button"
+                        name="#{r}"
+                        id="R#{r}"
+                        onclick="if (onInputR(#{r})) fillCanvas()"
+                >
+                  #{r}
+                </button>
+              </c:forEach>
+
+              <input name="R" id="r-input" style="display: none;" value=""/>
+            </p>
+            <p>
+              <input type="submit" id="send-button"/>
+            </p>
+            <p id="message" style="visibility: hidden"></p>
+          </form>
+        </td>
+        <td>
+          <canvas id="point-area" onclick="onClickCanvas()"></canvas>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <table class="result-table">
+            <tbody>
+            <tr>
+              <th>X</th>
+              <th>Y</th>
+              <th>R</th>
+              <th>Result</th>
+            </tr>
+            <!--
+              # HttpSession session = request.getSession(false);
+
+              # int newRows = (int) session.getAttribute("new-rows");
+              # ArrayList<Point> points = (ArrayList<Point>) session.getAttribute("points");
+              # Collections.reverse(points);
+
+            <c:forEach var="point" begin="0" end="8">
+              <tr style="color: #{newRows-\- > 0 ? lime : white}%>">
+                <th>#{point.x}</th>
+                <th>#{point.y}</th>
+                <th>#{point.r}</th>
+                <th>#{point.inside}</th>
+              </tr>
             </c:forEach>
-
-          </p>
-          <p id="y-p" class="var-p">
-            <span id="main-label">Y:</span>
-            <input class="text-input" name="Y" oninput="onInputY()" id="y-input"/>
-          </p>
-          <p id="r-p" class="var-p">
-            <span id="main-label">R:</span>
-
-            <c:forEach var="r" begin="1" end="5">
-            <button
-                    type="button"
-                    name="#{r}"
-                    id="R#{r}"
-                    onclick="if (onInputR(#{r})) fillCanvas()"
-            >
-              #{r}
-            </button>
-            </c:forEach>
-
-            <input name="R" id="r-input" style="display: none;" value=""/>
-          </p>
-          <p>
-            <input type="submit" id="send-button"/>
-          </p>
-          <p id="message" style="visibility: hidden"></p>
-        </form>
-      </td>
-      <td>
-        <canvas id="point-area" onclick="onClickCanvas()"></canvas>
-      </td>
-    </tr>
-    <tr><td colspan="2">
-      <iframe name="result" src="">
-        server crashed
-      </iframe>
-    </td></tr>
-    </tbody>
-  </table>
+            -->
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      </tbody>
+    </table>
   </ui:define>
 
 </ui:composition>
