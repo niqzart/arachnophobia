@@ -32,7 +32,7 @@ function recreatePoints(r) {
   for (let point of points) drawPoint(point, r)
 }
 
-function fillCanvas() {
+function fillCanvas(r) {
   console.log("fill")
   const canvas = document.getElementById("point-area")
   const size = 300
@@ -105,8 +105,6 @@ function fillCanvas() {
   context.fillText("X", 292, 140)
 
   // Radius-helpers for marks on axes
-  const r = document.getElementById("r-input").value
-
   var full_tag = "R"
   var half_tag = "R/2"
   var half_shift = true
@@ -155,12 +153,11 @@ function fillCanvas() {
   context.fillStyle = "black"
   context.stroke()
 
-  if (r !== "") recreatePoints(r)
+  // if (r !== "") recreatePoints(r)
 }
 
-function onClickCanvas() {
+function onClickCanvas(r) {
   console.log("click")
-  const r = document.getElementById("r-input").value
 
   const canvas = document.getElementById("point-area")
 
@@ -190,5 +187,5 @@ function resizeResultTable() {
 
 window.onload = () => {
   resizeResultTable()
-  fillCanvas()
+  fillCanvas("")
 }
