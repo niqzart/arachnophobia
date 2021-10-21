@@ -92,9 +92,11 @@ select {
   color: red;
 }
 
+/*
 input {
   width: 30px;
 }
+*/
 
 .checkboxes label>span {
   font-family: serif;
