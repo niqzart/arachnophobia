@@ -55,32 +55,9 @@ table {
   width: 100%;
 }
 
-p {
-  margin: 1% 0;
-  text-align: center;
-}
-
-input,
-button,
-.text-input {
-  height: 30px;
-  background-color: gray;
-  border-color: white;
-  color: white;
-}
-
-select {
-  /* element selector */
-  width: 40.6%;
-}
-
-.text-input {
-  /* class selector */
-  width: 40%;
-}
-
-#send-button {
-  width: 20%;
+fieldset {
+  border: 0px none white;
+  padding: 0;
 }
 
 .main-label {
@@ -88,36 +65,29 @@ select {
   margin-right: 1%;
 }
 
-#message {
-  color: red;
-}
-
-/*
 input {
-  width: 30px;
-}
-*/
-
-.checkboxes label>span {
-  font-family: serif;
+  background-color: #666 !important;
+  color: white !important;
 }
 
-.checkboxes input,
-.checkboxes label span {
-  /* selector the last one */
-  vertical-align: middle;
+.inputs {
+  padding: 0;
 }
 
-input:hover,
-select:hover {
-  /* pseudo class selector */
-  border-color: khaki;
+.form-part {
+  margin: 10px;
 }
 
-iframe {
-  margin-top: 7%;
-  width: 70%;
-  height: 400px;
+.x-button {
+  aspect-ratio: 1;
+  width: 40px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  margin: 2px 0;
+}
+
+#messages {
+  color: red;
 }
 
 #result-container {

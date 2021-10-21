@@ -21,25 +21,27 @@
       <tbody>
       <tr>
         <td>
-          <h:form action="" method="POST">
+          <h:form action="" method="POST" >
             <fieldset>
-              <p>Input the data</p>
-              <span class="checkboxes var-p" id="x-p">
-              <label>
-                <span class="main-label">X:</span>
-              </label>
-              <c:forEach var="x" begin="0" end="8">
+              <span class="inputs" id="x-p">
                 <label>
-                  <h:commandButton id="X#{x - 4}"
-                                   value="#{x - 4}"
-                                   action="#{mainBean.setX(x - 4)}">
-                    <!--<f:ajax execute="@form" render="@form results"/>-->
-                  </h:commandButton>
-                  <span> </span>
+                  <span class="main-label">X:<br/></span>
                 </label>
-              </c:forEach>
-            </span>
-              <p id="y-p" class="var-p">
+                <c:forEach var="x" begin="0" end="8">
+                  <label>
+                    <h:commandButton id="X#{x - 4}"
+                                     class="x-button"
+                                     value="#{x - 4}"
+                                     action="#{mainBean.setX(x - 4)}">
+                      <!--<f:ajax execute="@form" render="@form results"/>-->
+                    </h:commandButton>
+                    <ui:fragment rendered="#{x == 2 || x == 5}">
+                      <br/>
+                    </ui:fragment>
+                  </label>
+                </c:forEach>
+              </span>
+              <p id="y-p" class="form-part">
                 <span class="main-label">Y:</span>
                 <pf:inputText id="y-input"
                               type="text"
@@ -51,7 +53,7 @@
                   <f:validateDoubleRange minimum="-5" maximum="5"/>
                 </pf:inputText>
               </p>
-              <p id="r-p" class="var-p">
+              <p id="r-p" class="form-part">
                 <span class="main-label">R:</span>
                 <pf:spinner id="r-input"
                             rotate="true"
@@ -65,7 +67,7 @@
                   <f:validateDoubleRange minimum="0.1" maximum="3"/>
                 </pf:spinner>
               </p>
-              <p>
+              <p class="form-part">
                 <pf:commandButton value="Submit"
                                   action="#{mainBean.addPoint}"
                                   widgetVar="submit-button"
