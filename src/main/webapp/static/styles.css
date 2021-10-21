@@ -120,17 +120,23 @@ iframe {
   height: 400px;
 }
 
-.result-table  {
+#result-container {
+  height: 100%;
+  overflow-y: auto;
+  vertical-align: top;
+}
+
+#result-table  {
   border-collapse: collapse;
   color: white;
 }
 
-.result-table td,
-.result-table th {
+#result-table td,
+#result-table th {
   border: 1px solid gray;
 }
 
-.result-table th {
+#result-table th {
   width: 25%;
   border-bottom: 2px solid gray;
 }

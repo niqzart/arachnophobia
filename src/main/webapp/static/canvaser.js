@@ -183,4 +183,12 @@ function onClickCanvas() {
   points.push({ x, y })
 }
 
-window.onload = fillCanvas
+function resizeResultTable() {
+  container = document.getElementById("result-wrapper")
+  container.style.height = window.innerHeight - 450 + "px"
+}
+
+window.onload = () => {
+  resizeResultTable()
+  fillCanvas()
+}
