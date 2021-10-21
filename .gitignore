@@ -2,5 +2,6 @@ target/
 .tmp/
 *.class
 *.war
+*.ps1
 lib/
 .idea/
