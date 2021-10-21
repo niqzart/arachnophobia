@@ -18,4 +18,14 @@ function clockCycle() {
   setTimeout(clockCycle, 13000)
 }
 
-window.onload = clockCycle
+function resizeContainer() {
+  container = document.getElementById("clock-container")
+  container.style.height = window.innerHeight - 100 + "px"
+}
+
+window.onresize = resizeContainer
+
+window.onload = () => {
+  resizeContainer()
+  clockCycle()
+}

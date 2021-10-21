@@ -46,9 +46,8 @@ body {
 }
 
 #clock-container {
-  height: 300px;
   position: relative;
-  border: 3px solid sandybrown;
+  border: 3px solid lightskyblue;
 }
 
 table {
