@@ -9,8 +9,8 @@
 <f:view>
   <h:head>
     <title>Lab 3</title>
-    <script src="static/clock.js"></script>
-    <link rel="stylesheet" href="static/styles.css"/>
+    <!-- <script src="static/.js"></script> -->
+    <link rel="stylesheet" href="/static/styles.css"/>
     <meta content="text/html; charset=utf-8"/>
   </h:head>
   <h:body>
@@ -27,16 +27,9 @@
     </div>
     <div id="navbar">
       <h:form>
-        <h:commandButton value="MAIN" action=""/>
-        <h:commandButton value="FORM" action=""/>
+        <h:commandButton value="MAIN" action="toMain"/>
+        <h:commandButton value="FORM" action="toIndex"/>
       </h:form>
-    </div>
-    <div id="clock-container">
-      <div id="clock-box" onmouseover="teleportClock()" onclick="hitClock()">
-        <div id="clock">
-        </div>
-        <div id="hit-counter"> </div>
-      </div>
     </div>
   </h:body>
 </f:view>
