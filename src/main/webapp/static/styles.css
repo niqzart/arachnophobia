@@ -83,7 +83,7 @@ select {
   width: 20%;
 }
 
-#main-label {
+.main-label {
   font-weight: bold;
   margin-right: 1%;
 }
