@@ -30,7 +30,7 @@
                 <c:forEach var="x" begin="0" end="8">
                   <label>
                     <h:commandButton id="X#{x - 4}"
-                                     class="x-button"
+                                     class="input x-button"
                                      value="#{x - 4}"
                                      action="#{mainBean.setX(x - 4)}">
                       <!--<f:ajax execute="@form" render="@form results"/>-->
@@ -45,7 +45,7 @@
                 <span class="main-label">Y:</span>
                 <pf:inputText id="y-input"
                               type="text"
-                              class="text-input"
+                              class="input text-input"
                               maxlength="8"
                               value="#{mainBean.y}"
                               widgetVar="y-input"
@@ -56,6 +56,7 @@
               <p id="r-p" class="form-part">
                 <span class="main-label">R:</span>
                 <pf:spinner id="r-input"
+                            class="input"
                             rotate="true"
                             stepFactor="0.1"
                             min="0.1"
