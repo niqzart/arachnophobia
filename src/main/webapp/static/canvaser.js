@@ -47,7 +47,7 @@ function fillCanvas() {
 
   // rectangle
   context.beginPath()
-  context.rect(size / 2, 20, 65, size / 2 - 20)
+  context.rect(size / 2, size / 4 + 10, 130, size / 4 - 10)
   context.closePath()
   context.strokeStyle = "#2f9aff"
   context.fillStyle = "#2f9aff"
@@ -57,7 +57,7 @@ function fillCanvas() {
   // sector
   context.beginPath()
   context.moveTo(size / 2, size / 2)
-  context.arc(size / 2, size / 2, 65, Math.PI / 2, Math.PI, false)
+  context.arc(size / 2, size / 2, 130, Math.PI, - Math.PI / 2, false)
   context.closePath()
   context.strokeStyle = "#2f9aff"
   context.fillStyle = "#2f9aff"
@@ -68,7 +68,7 @@ function fillCanvas() {
   context.beginPath()
 
   context.moveTo(size / 2, size / 2)
-  context.lineTo(215, size / 2)
+  context.lineTo(85, size / 2)
   context.lineTo(size / 2, size - 20)
   context.lineTo(size / 2, size / 2)
 
