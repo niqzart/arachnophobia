@@ -12,10 +12,72 @@
   <ui:define name="title">Lab 3 | Main</ui:define>
 
   <ui:define name="scripts">
+    <script src="/static/canvaser.js"></script>
+    <script src="/static/validator.js"></script>
   </ui:define>
 
   <ui:define name="content">
-    HEY
+    <table id="content">
+    <tbody>
+    <tr>
+      <td>
+        <form action="" method="post" target="result" onsubmit="onSubmit()">
+          <p>Input the data</p>
+          <p class="checkboxes var-p" id="x-p">
+            <label>
+              <span id="main-label">X:</span>
+            </label>
+
+            <c:forEach var="x" begin="0" end="8">
+            <label>
+                  <span>#{x - 4}</span>
+              <input
+                      type="checkbox"
+                      name="#{x - 4}"
+                      id="X#{x - 4}"
+                      onclick="hideErrorMessages()"/>
+            </label>
+            <!--<% if (x == -0.5) { %><br><%}%>-->
+            </c:forEach>
+
+          </p>
+          <p id="y-p" class="var-p">
+            <span id="main-label">Y:</span>
+            <input class="text-input" name="Y" oninput="onInputY()" id="y-input"/>
+          </p>
+          <p id="r-p" class="var-p">
+            <span id="main-label">R:</span>
+
+            <c:forEach var="r" begin="1" end="5">
+            <button
+                    type="button"
+                    name="#{r}"
+                    id="R#{r}"
+                    onclick="if (onInputR(#{r})) fillCanvas()"
+            >
+              #{r}
+            </button>
+            </c:forEach>
+
+            <input name="R" id="r-input" style="display: none;" value=""/>
+          </p>
+          <p>
+            <input type="submit" id="send-button"/>
+          </p>
+          <p id="message" style="visibility: hidden"></p>
+        </form>
+      </td>
+      <td>
+        <canvas id="point-area" onclick="onClickCanvas()"></canvas>
+      </td>
+    </tr>
+    <tr><td colspan="2">
+      <iframe name="result" src="">
+        server crashed
+      </iframe>
+    </td></tr>
+    </tbody>
+  </table>
   </ui:define>
 
 </ui:composition>
