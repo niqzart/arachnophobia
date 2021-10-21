@@ -87,40 +87,31 @@
       <tr>
         <td colspan="2" id="result-wrapper">
           <div id="result-container">
-            <table id="result-table">
-              <tbody>
-              <tr>
-                <th>X</th>
-                <th>Y</th>
-                <th>R</th>
-                <th>Result</th>
-              </tr>
-              <c:forEach var="point" begin="0" end="80">
-                <tr>
-                  <th>#{point}</th>
-                  <th>Y</th>
-                  <th>R</th>
-                  <th>Result</th>
-                </tr>
-              </c:forEach>
-              <!--
-                # HttpSession session = request.getSession(false);
-
-                # int newRows = (int) session.getAttribute("new-rows");
-                # ArrayList<Point> points = (ArrayList<Point>) session.getAttribute("points");
-                # Collections.reverse(points);
-
-              <c:forEach var="point" begin="0" end="8">
-                <tr style="color: {newRows- - > 0 ? lime : white}">
-                  <th>#{point.x}</th>
-                  <th>#{point.y}</th>
-                  <th>#{point.r}</th>
-                  <th>#{point.inside}</th>
-                </tr>
-              </c:forEach>
-              -->
-              </tbody>
-            </table>
+            <h:dataTable value="#{mainBean.points}"
+                         var="point"
+                         id="result-table"
+            >
+              <h:column>
+                <f:facet name="header">X</f:facet>
+                <h:outputText value="#{point.x}">
+                  <f:convertNumber pattern="###.####"/>
+                </h:outputText>
+              </h:column>
+              <h:column>
+                <f:facet name="header">Y</f:facet>
+                <h:outputText value="#{point.y}">
+                  <f:convertNumber pattern="###.####"/>
+                </h:outputText>
+              </h:column>
+              <h:column>
+                <f:facet name="header">R</f:facet>
+                #{point.r}
+              </h:column>
+              <h:column>
+                <f:facet name="header">Result</f:facet>
+                #{point.inside}
+              </h:column>
+            </h:dataTable>
           </div>
         </td>
       </tr>

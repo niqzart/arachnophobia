@@ -1,15 +1,36 @@
 public class Point {
-    public final double x;
-    public final double y;
-    public final int r;
-    public final boolean inside;
+    private final double x;
+    private final double y;
+    private final int r;
+    private final boolean inside;
+
+    private static boolean isInside(double x, double y, int r) {
+        if (x >= r) return false;
+        if (x >= 0) return y >= 0 && y <= r / 2.;
+        return y >= Math.min(-2 * x - 1, 0) && y <= Math.sqrt(r * r - x * x);
+    }
 
     public Point(double x, double y, int r) {
         this.x = x;
         this.y = y;
         this.r = r;
-        boolean inside = (x >= 0) && (x <= r / 2.) && (y >= 2 * x - r) && (y <= r);
-        inside = inside || ((x <= 0) && (y <= 0) && (x * x + y * y <= r * r / 4.));
-        this.inside = inside;
+        this.inside = isInside(x, y, r);
+        Runnable test = () -> {};
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public int getR() {
+        return r;
+    }
+
+    public boolean isInside() {
+        return inside;
     }
 }
