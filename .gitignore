@@ -5,3 +5,4 @@ target/
 *.ps1
 lib/
 .idea/
+/.jpb/
