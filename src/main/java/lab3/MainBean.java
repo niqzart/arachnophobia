@@ -1,3 +1,5 @@
+package lab3;
+
 import org.primefaces.PrimeFaces;
 
 import javax.enterprise.context.SessionScoped;
