@@ -29,20 +29,21 @@ public class Point {
     private Boolean inside = false;
 
     @Column(name = "session", nullable = false)
-    private Long session;
+    private String session;
 
-    public Point(double x, double y, int r) {
+    public Point(double x, double y, int r, String session) {
         this.x = x;
         this.y = y;
         this.r = r;
         this.inside = isInside(x, y, r);
+        this.session = session;
     }
 
-    public Long getSession() {
+    public String getSession() {
         return session;
     }
 
-    public void setSession(Long session) {
+    public void setSession(String session) {
         this.session = session;
     }
 
