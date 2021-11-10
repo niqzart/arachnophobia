@@ -15,28 +15,36 @@ public class DBKeeper {
 
     @PostConstruct
     void init() {
+        String localname = "postgres";
         String username = System.getenv("DBU");
         String password = System.getenv("DBP");
 
         if (username == null || password == null) {
             System.out.println("DBKeeper can't be initialized: couldn't get credentials from the environment");
-            return;
+            System.exit(1);
         }
 
         HashMap<String, String> config = new HashMap<>();
-        config.put("javax.persistence.jdbc.user", username);
+        config.put("javax.persistence.jdbc.user", localname);
         config.put("javax.persistence.jdbc.password", password);
 
         try {
             entityManagerFactory = Persistence.createEntityManagerFactory("points", config);
             System.out.println("DBKeeper has been initialized (local)");
-        } catch (Exception e1) {
+        } catch (Exception e0) {
             try {
-                config.put("javax.persistence.jdbc.url", "jdbc:postgresql://pg:5432/studs");
+                config.put("javax.persistence.jdbc.user", username);
+                config.put("javax.persistence.jdbc.url", "jdbc:postgresql://localhost:8435/studs");
                 entityManagerFactory = Persistence.createEntityManagerFactory("points", config);
-                System.out.println("DBKeeper has been initialized (helios)");
-            } catch (Exception e2) {
-                e2.printStackTrace();
+                System.out.println("DBKeeper has been initialized (forwarding)");
+            } catch (Exception e1) {
+                try {
+                    config.put("javax.persistence.jdbc.url", "jdbc:postgresql://pg:5432/studs");
+                    entityManagerFactory = Persistence.createEntityManagerFactory("points", config);
+                    System.out.println("DBKeeper has been initialized (helios)");
+                } catch (Exception e2) {
+                    e2.printStackTrace();
+                }
             }
         }
     }
