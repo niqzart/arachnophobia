@@ -1,6 +1,6 @@
 package lab3;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Table(name = "point")
 @Entity
@@ -30,6 +30,9 @@ public class Point {
 
     @Column(name = "session", nullable = false)
     private String session;
+
+    public Point() {
+    }
 
     public Point(double x, double y, int r, String session) {
         this.x = x;
