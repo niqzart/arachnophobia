@@ -78,6 +78,7 @@ public class DBKeeper {
         CriteriaQuery<Point> all = criteriaQuery.select(root);
         TypedQuery<Point> allQuery = manager.createQuery(all);
         List<Point> result = allQuery.getResultList();
+        System.out.println(session);
         manager.close();
 
         return result;
