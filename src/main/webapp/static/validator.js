@@ -16,3 +16,13 @@ function hideErrorMessages() {
   node.innerText = ""
   node.style.visibility = "hidden"
 }
+
+function pickX(x) {
+  console.log(x, "j_idt15:X" + (x + 4))
+  for(let i = 0; i < 9; i++) {
+    console.log("j_idt15:X" + i)
+    const node = document.getElementById("j_idt15:X" + i)
+    node.className = "input x-button"
+  }
+  document.getElementById("j_idt15:X" + (x + 4)).className = "selected x-button"
+}

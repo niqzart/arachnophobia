@@ -14,6 +14,13 @@
   <ui:define name="scripts">
     <script src="/static/canvaser.js"></script>
     <script src="/static/validator.js"></script>
+    <script>
+      window.onload = () => {
+        resizeResultTable()
+        // fillCanvas("")
+        pickX(#{mainBean.x})
+      }
+    </script>
   </ui:define>
 
   <ui:define name="content">
@@ -29,7 +36,7 @@
                 </label>
                 <c:forEach var="x" begin="0" end="8">
                   <label>
-                    <h:commandButton id="X#{x - 4}"
+                    <h:commandButton id="X#{x}"
                                      class="input x-button"
                                      value="#{x - 4}"
                     >

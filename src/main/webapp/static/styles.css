@@ -88,6 +88,11 @@ fieldset {
   color: white !important;
 }
 
+.selected {
+  background-color: green !important;
+  color: white !important;
+}
+
 .inputs {
   padding: 0;
 }
