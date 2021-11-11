@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Table(name = "point")
 @Entity
 public class Point {
-    private static boolean isInside(double x, double y, int r) {
+    private static boolean isInside(double x, double y, double r) {
         if (x >= r) return false;
         if (x >= 0) return y >= 0 && y <= r / 2.;
         return y >= Math.min(-2 * x - 1, 0) && y <= Math.sqrt(r * r - x * x);
@@ -23,7 +23,7 @@ public class Point {
     private Double y;
 
     @Column(name = "r", nullable = false)
-    private Integer r;
+    private double r;
 
     @Column(name = "inside", nullable = false)
     private Boolean inside = false;
@@ -34,7 +34,7 @@ public class Point {
     public Point() {
     }
 
-    public Point(double x, double y, int r, String session) {
+    public Point(double x, double y, double r, String session) {
         this.x = x;
         this.y = y;
         this.r = r;
@@ -58,7 +58,7 @@ public class Point {
         this.inside = inside;
     }
 
-    public Integer getR() {
+    public Double getR() {
         return r;
     }
 

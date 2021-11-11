@@ -60,7 +60,7 @@ public class MainBean implements Serializable {
 
     public void addPoint() {
         System.out.println("HEY HEY");
-        Point point = new Point(Integer.parseInt(x), Integer.parseInt(y), Integer.parseInt(r), sessionID);
+        Point point = new Point(Integer.parseInt(x), Double.parseDouble(y), Double.parseDouble(r), sessionID);
         System.out.println(keeper.add(point));
     }
 }
