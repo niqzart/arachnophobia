@@ -21,7 +21,7 @@
       <tbody>
       <tr>
         <td>
-          <h:form action="" method="POST" >
+          <h:form class="form" >
             <fieldset>
               <span class="inputs" id="x-p">
                 <label>
@@ -32,8 +32,9 @@
                     <h:commandButton id="X#{x - 4}"
                                      class="input x-button"
                                      value="#{x - 4}"
-                                     action="#{mainBean.setX(x - 4)}">
-                      <!--<f:ajax execute="@form" render="@form results"/>-->
+                    >
+                      <f:setPropertyActionListener target="#{mainBean.x}"
+                                                   value="#{x - 4}" />
                     </h:commandButton>
                     <ui:fragment rendered="#{x == 2 || x == 5}">
                       <br/>
@@ -63,21 +64,19 @@
                             max="3"
                             decimalSeparator="."
                             value="#{mainBean.r}"
-                            widgetVar="x-input"
+                            widgetVar="r-input"
                 >
                   <f:validateDoubleRange minimum="0.1" maximum="3"/>
                 </pf:spinner>
               </p>
               <p class="form-part">
-                <pf:commandButton value="Submit"
-                                  action="#{mainBean.addPoint}"
-                                  widgetVar="submit-button"
+                <h:commandButton value="Submit"
+                                 update="@form"
+                                 action="#{mainBean.addPoint}"
+                                 widgetVar="submitButton"
                 >
-                  <!--
-                  update="@form"
-                  onsuccess="loadPointsFromTable()"
-                  -->
-                </pf:commandButton>
+                  <f:ajax execute="@form" render="results"/>
+                </h:commandButton>
               </p>
               <p id="messages" style="visibility: hidden"/>
             </fieldset>
@@ -92,7 +91,7 @@
           <div id="result-container">
             <h:dataTable value="#{mainBean.points}"
                          var="point"
-                         id="result-table"
+                         id="results"
             >
               <h:column>
                 <f:facet name="header">X</f:facet>

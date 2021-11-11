@@ -114,17 +114,17 @@ fieldset {
   vertical-align: top;
 }
 
-#result-table  {
+#results  {
   border-collapse: collapse;
   color: white;
 }
 
-#result-table td,
-#result-table th {
+#results td,
+#results th {
   border: 1px solid gray;
 }
 
-#result-table th {
+#results th {
   width: 25%;
   border-bottom: 2px solid gray;
 }
