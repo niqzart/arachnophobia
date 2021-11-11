@@ -1,7 +1,7 @@
 package lab3;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
+import javax.faces.bean.ApplicationScoped;
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -44,6 +44,7 @@ public class DBKeeper {
                     System.out.println("DBKeeper has been initialized (helios)");
                 } catch (Exception e2) {
                     e2.printStackTrace();
+                    System.exit(1);
                 }
             }
         }

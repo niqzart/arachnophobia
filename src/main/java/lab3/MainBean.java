@@ -1,7 +1,7 @@
 package lab3;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
@@ -9,21 +9,22 @@ import java.io.Serializable;
 import java.util.List;
 
 
-@ManagedBean(name = "mainBean")
 @SessionScoped
+@ManagedBean(name = "mainBean")
 public class MainBean implements Serializable {
     private String x = "0";
     private String y = "0";
     private String r = "1";
     private String sessionID;
 
-    private DBKeeper keeper;
+    private final DBKeeper keeper = new DBKeeper();
 
     @PostConstruct
     public void init() {
         FacesContext fCtx = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) fCtx.getExternalContext().getSession(false);
         sessionID = session.getId();
+        keeper.init();
     }
 
     public String getX() {
@@ -54,19 +55,11 @@ public class MainBean implements Serializable {
     }
 
     public List<Point> getPoints() {
-        keeper = new DBKeeper();
-        keeper.init();
-
         return keeper.findBySession(sessionID);
     }
 
     public void addPoint() {
         System.out.println("HEY HEY");
-        // PrimeFaces.current().executeScript("console.log(" + x + ", " + y + ", " + r + ")");
-
-        keeper = new DBKeeper();
-        keeper.init();
-
         Point point = new Point(Integer.parseInt(x), Integer.parseInt(y), Integer.parseInt(r), sessionID);
         System.out.println(keeper.add(point));
     }
