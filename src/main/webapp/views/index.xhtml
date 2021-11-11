@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+<body>
+<ui:composition template="/views/template.xhtml">
+
+  <ui:define name="title">Lab 3</ui:define>
+
+  <ui:define name="scripts">
+    <script src="/static/clock.js"></script>
+  </ui:define>
+
+  <ui:define name="content">
+    <div id="clock-container">
+      <div id="clock-box" onmouseover="teleportClock()" onclick="hitClock()">
+        <div id="clock">
+        </div>
+        <div id="hit-counter"> </div>
+      </div>
+    </div>
+  </ui:define>
+
+</ui:composition>
+</body>
+
+</html>
