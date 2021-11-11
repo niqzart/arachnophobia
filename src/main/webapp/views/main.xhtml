@@ -72,7 +72,7 @@
               <p class="form-part">
                 <h:commandButton value="Submit"
                                  update="@form"
-                                 action="#{mainBean.addPoint}"
+                                 action="#{mainBean.addFormPoint}"
                                  widgetVar="submitButton"
                 >
                   <f:ajax execute="@form" render="results"/>
@@ -83,7 +83,16 @@
           </h:form>
         </td>
         <td>
-          <canvas id="point-area" onclick="onClickCanvas(#{mainBean.r})"/>
+          <h:form id="plot">
+            <h:inputHidden id="x-canvas" value="#{mainBean.xc}">
+            </h:inputHidden>
+            <h:inputHidden id="y-canvas" value="#{mainBean.yc}">
+            </h:inputHidden>
+            <canvas id="point-area" onclick="onClickCanvas(#{mainBean.r})">
+
+            </canvas>
+            <pf:remoteCommand name="addPoint" action="#{mainBean.addCanvasPoint}" update=":results"/>
+          </h:form>
         </td>
       </tr>
       <tr>

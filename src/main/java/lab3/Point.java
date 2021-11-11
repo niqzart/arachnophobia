@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Point {
     private static boolean isInside(double x, double y, double r) {
         if (x >= r) return false;
-        if (x >= 0) return y >= 0 && y <= r / 2.;
+        if (x > 0) return y >= 0 && y <= r / 2.;
         return y >= Math.min(-2 * x - 1, 0) && y <= Math.sqrt(r * r - x * x);
     }
 

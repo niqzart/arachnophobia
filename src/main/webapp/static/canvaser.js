@@ -1,39 +1,27 @@
-const points = []
+function drawPoint(x, y, r, inside) {
+  console.log("drawPoint", x, y, r, inside)
 
-function drawPoint({ x, y }, r) {
-  console.log("drawPoint")
+  const canvas = document.getElementById("point-area")
+  const context = canvas.getContext("2d")
+  const point_size = 10
 
-  fetch("./?X=" + x + "&Y=" + y + "&R=" + r, {
-    method: "POST",
-    headers: { "Content-Type": "text/plain;charset=UTF-8" }
-  }).then(response => response.text())
-    .then(inside => {
-      const canvas = document.getElementById("point-area")
-      const context = canvas.getContext("2d")
-      const point_size = 10
+  context.beginPath()
+  context.rect(
+    canvas.width / 2 + (x / r * 130) - point_size / 2,
+    canvas.height / 2 - (y / r * 130) - point_size / 2,
+    point_size, point_size
+  )
+  context.closePath()
 
-      context.beginPath()
-      context.rect(
-        canvas.width / 2 + (x / r * 130) - point_size / 2,
-        canvas.height / 2 - (y / r * 130) - point_size / 2,
-        point_size, point_size
-      )
-      context.closePath()
-
-      context.strokeStyle = "black"
-      context.fillStyle = inside === "true" ? "lime" : "red"
-      context.fill()
-      context.stroke()
-    })
-}
-
-function recreatePoints(r) {
-  console.log("recreate")
-  for (let point of points) drawPoint(point, r)
+  context.strokeStyle = "black"
+  context.fillStyle = inside ? "lime" : "red"
+  context.fill()
+  context.stroke()
 }
 
 function fillCanvas(r) {
   console.log("fill")
+  
   const canvas = document.getElementById("point-area")
   const size = 300
   canvas.width = size
@@ -105,8 +93,8 @@ function fillCanvas(r) {
   context.fillText("X", 292, 140)
 
   // Radius-helpers for marks on axes
-  var full_tag = "R"
-  var half_tag = "R/2"
+  var full_tag = "1"
+  var half_tag = "0.5"
   var half_shift = true
   if (r !== "") {
     full_tag = r
@@ -157,27 +145,18 @@ function fillCanvas(r) {
 }
 
 function onClickCanvas(r) {
-  console.log("click")
-
   const canvas = document.getElementById("point-area")
-
-  if (r === "") {
-    fillCanvas()
-    const context = canvas.getContext("2d")
-    context.strokeStyle = "#000000"
-    context.fillStyle = "#ff0000"
-    context.font = "20px Arial"
-    context.fillText("Value of R has to be set", 20, 50)
-    return
-  }
 
   const br = canvas.getBoundingClientRect();
   const event = window.event
   const x = (event.clientX - br.left - canvas.width / 2) / 130 * r
   const y = (-event.clientY + br.top + canvas.height / 2) / 130 * r
 
-  drawPoint({ x, y }, r)
-  points.push({ x, y })
+  document.getElementById("plot:x-canvas").value = x
+  document.getElementById("plot:y-canvas").value = y
+
+  console.log("click", x, y)
+  addPoint()
 }
 
 function resizeResultTable() {
