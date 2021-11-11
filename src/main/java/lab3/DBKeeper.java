@@ -3,6 +3,7 @@ package lab3;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ApplicationScoped;
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.HashMap;
@@ -50,21 +51,19 @@ public class DBKeeper {
         }
     }
 
-    public boolean add(Point point) {
+    public void add(Point point) {
         EntityManager manager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = manager.getTransaction();
         try {
             transaction.begin();
             manager.persist(point);
             transaction.commit();
-            return true;
         } catch (Exception e1) {
             try {
                 transaction.rollback();
             } catch (Exception e2) {
                 e2.printStackTrace();
             }
-            return false;
         } finally {
             manager.close();
         }
