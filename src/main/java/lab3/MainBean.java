@@ -24,9 +24,9 @@ public class MainBean implements Serializable {
 
     private final DBKeeper keeper = new DBKeeper();
 
-    private static void drawPoint(Point point) {
+    private void drawPoint(Point point) {
         PrimeFaces.current().executeScript(String.format("drawPoint(%f, %f, %f, %s)",
-                point.getX(), point.getY(), point.getR(), point.getInside().toString()));
+                point.getX(), point.getY(), Double.parseDouble(r), point.getInside().toString()));
     }
 
     @PostConstruct
@@ -61,15 +61,14 @@ public class MainBean implements Serializable {
 
     public void setR(String r) {
         System.out.println("HEY r " + r);
-        if (!this.r.equals(r)) {
-            PrimeFaces.current().executeScript("fillCanvas(" + r + ")");
-            for (Point point : this.getPoints()) drawPoint(point);
-        }
         this.r = r;
     }
 
     public List<Point> getPoints() {
-        return keeper.findBySession(sessionID);
+        List<Point> points = keeper.findBySession(sessionID);
+        PrimeFaces.current().executeScript("fillCanvas(" + r + ")");
+        for (Point point : points) drawPoint(point);
+        return points;
     }
 
     public String getXc() {
@@ -96,7 +95,7 @@ public class MainBean implements Serializable {
 
     public void addFormPoint() {
         System.out.println("HEY HEY");
-        addPoint(Integer.parseInt(x), Double.parseDouble(y), Double.parseDouble(r), sessionID);
+        addPoint(Double.parseDouble(x), Double.parseDouble(y), Double.parseDouble(r), sessionID);
     }
 
     public void addCanvasPoint() {

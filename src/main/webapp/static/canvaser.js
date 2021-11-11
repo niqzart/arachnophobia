@@ -93,14 +93,14 @@ function fillCanvas(r) {
   context.fillText("X", 292, 140)
 
   // Radius-helpers for marks on axes
-  var full_tag = "1"
-  var half_tag = "0.5"
+  var full_tag = "R"
+  var half_tag = "R/2"
   var half_shift = true
-  if (r !== "") {
-    full_tag = r
-    half_tag = r / 2
-    half_shift = half_tag % 1
-  }
+  // if (r !== "") {
+  //   full_tag = r
+  //   half_tag = r / 2
+  //   half_shift = half_tag % 1
+  // }
 
   // Y marks on axes
   context.moveTo(145, 20)
@@ -162,9 +162,4 @@ function onClickCanvas(r) {
 function resizeResultTable() {
   container = document.getElementById("result-wrapper")
   container.style.height = window.innerHeight - 450 + "px"
-}
-
-window.onload = () => {
-  resizeResultTable()
-  fillCanvas("")
 }
