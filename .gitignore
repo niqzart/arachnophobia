@@ -1,9 +1,7 @@
-target/
-.tmp/
 *.class
 *.war
 *.ps1
 *.sh
 lib/
 .idea/
-/.jpb/
+.jpb/
