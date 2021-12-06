@@ -1,5 +1,6 @@
-import { Component } from "react"
-import { Button, Grid, TextField as _TextField, InputAdornment, IconButton, useMediaQuery } from "@mui/material"
+import { Component, useState } from "react"
+import { Button, Box, Grid, TextField as _TextField, Tab, InputAdornment, IconButton, useMediaQuery } from "@mui/material"
+import { TabContext, TabPanel, TabList } from "@mui/lab"
 import { Visibility, VisibilityOff, Email, AccountCircle } from "@mui/icons-material"
 
 class TextField extends Component {
@@ -63,6 +64,7 @@ class SingIn extends Component {
   }
 
   render() {
+    console.log(0)
     return <Grid
       container
       spacing={1}
@@ -112,9 +114,24 @@ class SingUp extends Component {
   }
 }
 
-export default function HomePage() {
-  const desktop = useMediaQuery('(min-width:600px)')
+function DesktopHomePage() {
+  return <Grid
+    container
+    spacing={4}
+    alignItems="center"
+    justifyContent="center"
+    style={{ minHeight: "90vh", width: "1042px", marginRight: "auto", marginLeft: "auto" }}
+  >
+    <Grid item xs={6}>
+      <SingUp />
+    </Grid>
+    <Grid item xs={6}>
+      <SingIn />
+    </Grid>
+  </Grid>
+}
 
+function TabletHomePage() {
   return <Grid
     container
     spacing={4}
@@ -129,4 +146,43 @@ export default function HomePage() {
       <SingIn />
     </Grid>
   </Grid>
+}
+
+function MobileHomePage() {
+  const [value, setValue] = useState('1')
+
+  const handleChange = (_, newValue) => {
+    setValue(newValue);
+  }
+
+  return <TabContext value={value}>
+    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+      <TabList onChange={handleChange}>
+        <Tab label="Sign Up" value="1" />
+        <Tab label="Sign In" value="2" />
+      </TabList>
+    </Box>
+    <TabPanel value="1">
+      <div style={{ display: "flex", alignItems: "center", minHeight: "70vh" }} >
+        <SingUp />
+      </div>
+    </TabPanel>
+    <TabPanel value="2">
+      <div style={{ display: "flex", alignItems: "center", minHeight: "70vh" }} >
+        <SingIn />
+      </div>
+    </TabPanel>
+  </TabContext>
+}
+
+export default function HomePage() {
+  const desktop = useMediaQuery('(min-width:1043px)')
+  const tablet = useMediaQuery('(min-width:750px)')
+  if (desktop) {
+    return <DesktopHomePage />
+  } else if (tablet) {
+    return <TabletHomePage />
+  } else {
+    return <MobileHomePage />
+  }
 }
