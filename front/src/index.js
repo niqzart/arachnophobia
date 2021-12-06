@@ -7,7 +7,7 @@ import HomePage from "./home"
 import MainPage from "./main"
 
 render(
-  <ThemeProvider theme={createTheme({palette: {mode: "dark"}})}>
+  <ThemeProvider theme={createTheme({palette: {mode: "dark", primary: {main: "#6495ed", contrastText: "#fff"}}})}>
     <CssBaseline />
     
     <Grid
