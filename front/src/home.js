@@ -120,7 +120,7 @@ export default function HomePage() {
     spacing={4}
     alignItems="center"
     justifyContent="center"
-    style={{ minHeight: "100vh" }}
+    style={{ minHeight: "90vh" }}
   >
     <Grid item xs={6}>
       <SingUp />

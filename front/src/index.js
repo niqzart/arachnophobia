@@ -1,7 +1,7 @@
 import React from "react"
 import { render } from "react-dom"
 import { BrowserRouter, Switch, Route } from "react-router-dom"
-import { ThemeProvider, CssBaseline, createTheme } from "@mui/material"
+import { ThemeProvider, CssBaseline, Grid, createTheme } from "@mui/material"
 
 import HomePage from "./home"
 import MainPage from "./main"
@@ -9,6 +9,27 @@ import MainPage from "./main"
 render(
   <ThemeProvider theme={createTheme({palette: {mode: "dark"}})}>
     <CssBaseline />
+    
+    <Grid
+      container
+      style={{
+        width: "100%",
+        backgroundColor: "cornflowerblue",
+        padding: "10px 10px 10px 10px",
+        borderBottom: "1px solid black"
+      }}
+    >
+      <Grid item xs={4} style={{textAlign: "left"}}>
+        Нестеров Николай
+      </Grid>
+      <Grid item xs={4} style={{textAlign: "center"}}>
+        P3230
+      </Grid>
+      <Grid item xs={4} style={{textAlign: "right"}}>
+        Вариант: 30811
+      </Grid>
+    </Grid>
+
     <BrowserRouter>
       <Switch>
         <Route exact path="/" component={HomePage} />
