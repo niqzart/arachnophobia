@@ -2,6 +2,12 @@ import { Component } from "react"
 import { Grid, TextField, Button, useMediaQuery } from "@mui/material"
 import { DataGrid } from '@mui/x-data-grid'
 
+function isInside(x, y, r) {
+  if (x <= 0) return y <= x + r && y >= 0
+  else if (y >= 0) return y * y + x * x <= (r * r) / 4
+  else return y >= -r && x < r / 2
+}
+
 class DesktopMainPage extends Component {
   treatAsEmpty = ["", "-", "+", "."]
 
@@ -47,11 +53,15 @@ class DesktopMainPage extends Component {
     }
   }
 
+  pushPoint(x, y, r) {
+    let points = this.state.points.slice()
+    points.push({ x, y, r, result: isInside(x, y, r)})
+    this.setState({ points })
+  }
+
   addPoint(x, y) {
     this.drawPoint({ x, y })
-    let points = this.state.points.slice()
-    points.push({ x: parseFloat(x), y: parseFloat(y), r: parseFloat(this.state.r) })
-    this.setState({ points })
+    this.pushPoint(parseFloat(x), parseFloat(y), parseFloat(this.state.r))
   }
 
   render() {
@@ -113,7 +123,7 @@ class DesktopMainPage extends Component {
       </Grid>
       <Grid item xs={12} style={{ margin: "20px", height: "420px", width: "100%" }}>
         <DataGrid
-          columns={["x", "y", "r", "inside", "result"].map((value) => this.createColumn(value))}
+          columns={["x", "y", "r", "result"].map((value) => this.createColumn(value))}
           rows={this.state.points.map((point, i) => { return { id: i, ...point } })}
           pageSize={5}
           rowsPerPageOptions={[5]}
@@ -122,9 +132,10 @@ class DesktopMainPage extends Component {
     </Grid>
   }
 
-  drawPoint({ x, y, R, inside }) {
+  drawPoint({ x, y, R }) {
     if (R === undefined) R = this.state.r
-    console.log("drawPoint", x, y, R, inside)
+    R = parseFloat(R)
+    console.log("drawPoint", x, y, R)
 
     const canvas = document.getElementById("point-area")
     const context = canvas.getContext("2d")
@@ -138,6 +149,7 @@ class DesktopMainPage extends Component {
     )
     context.closePath()
 
+    const inside = isInside(x, y, R)
     context.strokeStyle = inside ? "lime" : "red"
     context.fillStyle = inside ? "lime" : "red"
     context.fill()
@@ -178,7 +190,7 @@ class DesktopMainPage extends Component {
     if (full_tag !== "R") {
       // rectangle
       context.beginPath()
-      context.rect(size / 2, size / 4 + 10, 130, size / 4 - 10)
+      context.rect(size / 2, size / 2, 65, size / 2 - 20)
       context.closePath()
       context.strokeStyle = "#2f9aff"
       context.fillStyle = "#2f9aff"
@@ -188,7 +200,7 @@ class DesktopMainPage extends Component {
       // sector
       context.beginPath()
       context.moveTo(size / 2, size / 2)
-      context.arc(size / 2, size / 2, 130, Math.PI, - Math.PI / 2, false)
+      context.arc(size / 2, size / 2, 65, Math.PI, 0, false)
       context.closePath()
       context.strokeStyle = "#2f9aff"
       context.fillStyle = "#2f9aff"
@@ -199,8 +211,8 @@ class DesktopMainPage extends Component {
       context.beginPath()
 
       context.moveTo(size / 2, size / 2)
-      context.lineTo(85, size / 2)
-      context.lineTo(size / 2, size - 20)
+      context.lineTo(20, size / 2)
+      context.lineTo(size / 2, 20)
       context.lineTo(size / 2, size / 2)
 
       context.closePath()
