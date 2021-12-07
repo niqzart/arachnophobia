@@ -1,5 +1,6 @@
 import { Component } from "react"
-import { Grid, TextField, Button, useMediaQuery } from "@mui/material"
+import { Grid, TextField, Button, Box, useMediaQuery, Tab } from "@mui/material"
+import { TabContext, TabPanel, TabList } from "@mui/lab"
 import { DataGrid } from '@mui/x-data-grid'
 
 function isInside(x, y, r) {
@@ -8,7 +9,7 @@ function isInside(x, y, r) {
   else return y >= -r && x < r / 2
 }
 
-class DesktopMainPage extends Component {
+class MainPageLayout extends Component {
   treatAsEmpty = ["", "-", "+", "."]
 
   state = {
@@ -19,6 +20,7 @@ class DesktopMainPage extends Component {
     yError: false,
     rError: false,
     points: [],
+    mobileTab: "1",
   }
 
   createNumberField(coordName, minValue, maxValue) {
@@ -55,7 +57,7 @@ class DesktopMainPage extends Component {
 
   pushPoint(x, y, r) {
     let points = this.state.points.slice()
-    points.push({ x, y, r, result: isInside(x, y, r)})
+    points.push({ x, y, r, result: isInside(x, y, r) })
     this.setState({ points })
   }
 
@@ -64,72 +66,123 @@ class DesktopMainPage extends Component {
     this.pushPoint(parseFloat(x), parseFloat(y), parseFloat(this.state.r))
   }
 
-  render() {
+  createForm() {
     return <Grid
       container
-      spacing={0}
+      spacing={1}
+      direction="column"
       alignItems="center"
       justifyContent="center"
-      style={{ minHeight: "90vh", marginTop: "12px" }}
     >
-      <Grid item xs={6} style={{ textAlign: "center" }}>
-        <Grid
-          container
-          spacing={1}
-          direction="column"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <Grid item xs={3}>
-            {this.createNumberField("x", -3, 3)}
-          </Grid>
-          <Grid item xs={3}>
-            {this.createNumberField("y", -3, 3)}
-          </Grid>
-          <Grid item xs={3}>
-            {this.createNumberField("r", 0, 3)}
-          </Grid>
-          <Grid item xs={3}>
-            <Button
-              variant="contained"
-              onClick={() => {
-                const xError = this.treatAsEmpty.includes(this.state.x)
-                const yError = this.treatAsEmpty.includes(this.state.y)
-                const rError = this.treatAsEmpty.includes(this.state.r)
-                if (xError || yError || rError) this.setState({ xError, yError, rError })
-                else this.addPoint(this.state.x, this.state.y)
-              }}
-            >
-              Add Point
-            </Button>
-          </Grid>
-        </Grid >
+      <Grid item xs={3}>
+        {this.createNumberField("x", -3, 3)}
       </Grid>
-      <Grid item xs={6} style={{ textAlign: "center" }}>
-        <canvas
-          id="point-area"
-          onClick={(event) => {
-            if (this.treatAsEmpty.includes(this.state.r)) {
-              this.setState({ rError: true })
-            } else {
-              const canvas = document.getElementById("point-area")
-              const br = canvas.getBoundingClientRect();
-              const x = (event.clientX - br.left - canvas.width / 2) / 130 * this.state.r
-              const y = (-event.clientY + br.top + canvas.height / 2) / 130 * this.state.r
-              this.addPoint(x, y)
-            }
+      <Grid item xs={3}>
+        {this.createNumberField("y", -3, 3)}
+      </Grid>
+      <Grid item xs={3}>
+        {this.createNumberField("r", 0, 3)}
+      </Grid>
+      <Grid item xs={3}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            const xError = this.treatAsEmpty.includes(this.state.x)
+            const yError = this.treatAsEmpty.includes(this.state.y)
+            const rError = this.treatAsEmpty.includes(this.state.r)
+            if (xError || yError || rError) this.setState({ xError, yError, rError })
+            else this.addPoint(this.state.x, this.state.y)
           }}
-        />
+        >
+          Add Point
+        </Button>
       </Grid>
-      <Grid item xs={12} style={{ margin: "20px", height: "420px", width: "100%" }}>
-        <DataGrid
-          columns={["x", "y", "r", "result"].map((value) => this.createColumn(value))}
-          rows={this.state.points.map((point, i) => { return { id: i, ...point } })}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
-        />
+    </Grid >
+  }
+
+  createCanvas() {
+    return <canvas
+      id="point-area"
+      onClick={(event) => {
+        if (this.treatAsEmpty.includes(this.state.r)) {
+          this.setState({ rError: true })
+        } else {
+          const canvas = document.getElementById("point-area")
+          const br = canvas.getBoundingClientRect();
+          const x = (event.clientX - br.left - canvas.width / 2) / 130 * this.state.r
+          const y = (-event.clientY + br.top + canvas.height / 2) / 130 * this.state.r
+          this.addPoint(x, y)
+        }
+      }}
+    />
+  }
+
+  render() {
+    const { desktop, tablet } = this.props
+    if (tablet) {
+      const style = desktop ? { width: "1042px", marginRight: "auto", marginLeft: "auto" } : { width: "100%" }
+      return <Grid
+        container
+        spacing={0}
+        alignItems="center"
+        justifyContent="center"
+        style={{ minHeight: "90vh", marginTop: "12px", ...style }}
+      >
+        <Grid item xs={6}>
+          {this.createForm()}
+        </Grid>
+        <Grid item xs={6}>
+          {this.createCanvas()}
+        </Grid>
+        <Grid item xs={12} style={{ margin: "20px", height: "420px", width: "100%" }}>
+          <DataGrid
+            columns={["x", "y", "r", "result"].map((value) => this.createColumn(value))}
+            rows={this.state.points.map((point, i) => { return { id: i, ...point } })}
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+          />
+        </Grid>
       </Grid>
-    </Grid>
+    } else {
+      return <TabContext value={this.state.mobileTab}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <TabList onChange={(_, mobileTab) => {
+            this.setState({ mobileTab }, () => {
+              if(mobileTab === "1") this.drawPicture(this.state.r)
+            })
+          }}>
+            <Tab label="Inputs" value="1" />
+            <Tab label="Results" value="2" />
+          </TabList>
+        </Box>
+        <TabPanel value="1">
+          <Grid
+            container
+            spacing={0}
+            alignItems="center"
+            justifyContent="center"
+            style={{ minHeight: "70vh", marginTop: "12px" }}
+          >
+            <Grid item xs={6}>
+              {this.createForm()}
+            </Grid>
+            <Grid item xs={6}>
+              {this.createCanvas()}
+            </Grid>
+          </Grid>
+        </TabPanel>
+        <TabPanel value="2">
+          <div style={{ display: "flex", alignItems: "center", height: "80vh" }} >
+            <DataGrid
+              columns={["x", "y", "r", "result"].map((value) => this.createColumn(value))}
+              rows={this.state.points.map((point, i) => { return { id: i, ...point } })}
+              pageSize={10}
+              rowsPerPageOptions={[10]}
+            />
+          </div>
+        </TabPanel>
+      </TabContext>
+    }
   }
 
   drawPoint({ x, y, R }) {
@@ -138,6 +191,7 @@ class DesktopMainPage extends Component {
     console.log("drawPoint", x, y, R)
 
     const canvas = document.getElementById("point-area")
+    if (canvas === undefined || canvas === null) return
     const context = canvas.getContext("2d")
     const point_size = 10
 
@@ -177,6 +231,7 @@ class DesktopMainPage extends Component {
     }
 
     const canvas = document.getElementById("point-area")
+    if (canvas === undefined || canvas === null) return
     const size = 300
     canvas.width = size
     canvas.height = size
@@ -288,6 +343,10 @@ class DesktopMainPage extends Component {
     context.stroke()
   }
 
+  componentDidUpdate() {
+    this.drawPicture(this.state.r)
+  }
+
   componentDidMount() {
     this.drawPicture("")
   }
@@ -296,5 +355,5 @@ class DesktopMainPage extends Component {
 export default function MainPage() {
   const desktop = useMediaQuery('(min-width:1043px)')
   const tablet = useMediaQuery('(min-width:750px)')
-  return <DesktopMainPage />
+  return <MainPageLayout desktop={desktop} tablet={tablet} />
 }
