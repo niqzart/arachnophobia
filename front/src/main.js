@@ -1,5 +1,6 @@
 import { Component } from "react"
 import { Grid, TextField, Button, useMediaQuery } from "@mui/material"
+import { DataGrid } from '@mui/x-data-grid'
 
 class DesktopMainPage extends Component {
   treatAsEmpty = ["", "-", "+", "."]
@@ -36,10 +37,19 @@ class DesktopMainPage extends Component {
     />
   }
 
+  createColumn(name) {
+    return {
+      field: name,
+      headerName: name.charAt(0).toUpperCase() + name.slice(1),
+      width: 150,
+      editable: true,
+    }
+  }
+
   addPoint(x, y) {
     this.drawPoint({ x, y })
-    const points = this.state.points
-    points.push({ x, y })
+    let points = this.state.points.slice()
+    points.push({ x, y, r: this.state.r })
     this.setState({ points })
   }
 
@@ -94,15 +104,20 @@ class DesktopMainPage extends Component {
           }}
         />
       </Grid>
-      <Grid item xs={12} style={{ textAlign: "center" }}>
-        Results
+      <Grid item xs={12} style={{ margin: "20px", height: 400, width: "100%" }}>
+        <DataGrid
+          columns={["x", "y", "r", "inside", "result"].map((value) => this.createColumn(value))}
+          rows={this.state.points.map((point, i) => { return { id: i, ...point } })}
+          pageSize={10}
+          rowsPerPageOptions={[10]}
+        />
       </Grid>
     </Grid>
   }
 
-  drawPoint({ x, y, r, inside }) {
-    if (r === undefined) r = this.state.r
-    console.log("drawPoint", x, y, r, inside)
+  drawPoint({ x, y, R, inside }) {
+    if (R === undefined) R = this.state.r
+    console.log("drawPoint", x, y, R, inside)
 
     const canvas = document.getElementById("point-area")
     const context = canvas.getContext("2d")
@@ -110,18 +125,11 @@ class DesktopMainPage extends Component {
 
     context.beginPath()
     context.rect(
-      canvas.width / 2 + (x / r * 130) - point_size / 2,
-      canvas.height / 2 - (y / r * 130) - point_size / 2,
+      canvas.width / 2 + (x / R * 130) - point_size / 2,
+      canvas.height / 2 - (y / R * 130) - point_size / 2,
       point_size, point_size
     )
     context.closePath()
-
-    console.log(
-      x, y, r,
-      canvas.width / 2 + (x / r * 130) - point_size / 2,
-      canvas.height / 2 - (y / r * 130) - point_size / 2,
-      point_size, point_size
-    )
 
     context.strokeStyle = "black"
     context.fillStyle = inside ? "lime" : "red"
@@ -129,10 +137,10 @@ class DesktopMainPage extends Component {
     context.stroke()
   }
 
-  redrawPoints(r) {
-    console.log("hey", r)
-    this.drawPicture(r)
-    for (let point of this.state.points) this.drawPoint({ r, ...point })
+  redrawPoints(R) {
+    console.log("redrawPoints", R)
+    this.drawPicture(R)
+    for (let point of this.state.points) this.drawPoint({ R, ...point })
   }
 
   drawPicture(r) {
