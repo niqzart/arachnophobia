@@ -1,5 +1,5 @@
 import { Component, useState } from "react"
-import { Button, Box, Grid, TextField as _TextField, Tab, InputAdornment, IconButton, useMediaQuery } from "@mui/material"
+import { Button, Box, Grid, TextField as BaseTextField, Tab, InputAdornment, IconButton, useMediaQuery } from "@mui/material"
 import { TabContext, TabPanel, TabList } from "@mui/lab"
 import { Visibility, VisibilityOff, Email, AccountCircle } from "@mui/icons-material"
 
@@ -11,7 +11,7 @@ class TextField extends Component {
   }
 
   render() {
-    return <_TextField onChange={(event) => this.onSetValue(event.target.value)} {...this.props} />
+    return <BaseTextField onChange={(event) => this.onSetValue(event.target.value)} {...this.props} />
   }
 }
 
@@ -90,6 +90,13 @@ class SingIn extends Component {
 }
 
 class SingUp extends Component {
+  state = {
+    email: "",
+    username: "",
+    password: "",
+    errors: [],
+  }
+
   render() {
     return <Grid
       container
@@ -114,30 +121,14 @@ class SingUp extends Component {
   }
 }
 
-function DesktopHomePage() {
+function DesktopHomePage({ desktop }) {
+  const style = desktop ? { width: "1042px", marginRight: "auto", marginLeft: "auto" } : { }
   return <Grid
     container
     spacing={4}
     alignItems="center"
     justifyContent="center"
-    style={{ minHeight: "90vh", width: "1042px", marginRight: "auto", marginLeft: "auto" }}
-  >
-    <Grid item xs={6}>
-      <SingUp />
-    </Grid>
-    <Grid item xs={6}>
-      <SingIn />
-    </Grid>
-  </Grid>
-}
-
-function TabletHomePage() {
-  return <Grid
-    container
-    spacing={4}
-    alignItems="center"
-    justifyContent="center"
-    style={{ minHeight: "90vh" }}
+    style={{ minHeight: "90vh", ...style }}
   >
     <Grid item xs={6}>
       <SingUp />
@@ -178,11 +169,5 @@ function MobileHomePage() {
 export default function HomePage() {
   const desktop = useMediaQuery('(min-width:1043px)')
   const tablet = useMediaQuery('(min-width:750px)')
-  if (desktop) {
-    return <DesktopHomePage />
-  } else if (tablet) {
-    return <TabletHomePage />
-  } else {
-    return <MobileHomePage />
-  }
+  return tablet ? <DesktopHomePage desktop={desktop} /> : <MobileHomePage />
 }
