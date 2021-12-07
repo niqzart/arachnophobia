@@ -74,7 +74,7 @@ class DesktopMainPage extends Component {
             {this.createNumberField("x", -3, 3)}
           </Grid>
           <Grid item xs={3}>
-            {this.createNumberField("y", -5, 3)}
+            {this.createNumberField("y", -3, 3)}
           </Grid>
           <Grid item xs={3}>
             {this.createNumberField("r", 0, 3)}
@@ -138,7 +138,7 @@ class DesktopMainPage extends Component {
     )
     context.closePath()
 
-    context.strokeStyle = "black"
+    context.strokeStyle = inside ? "lime" : "red"
     context.fillStyle = inside ? "lime" : "red"
     context.fill()
     context.stroke()
@@ -153,6 +153,17 @@ class DesktopMainPage extends Component {
   drawPicture(r) {
     console.log("fill")
 
+    // Radius-helpers for marks on axes
+    var full_tag = "R"
+    var half_tag = "R/2"
+    var half_shift = true
+    if (!this.treatAsEmpty.includes(r) && parseFloat(r) !== 0) {
+      r = parseFloat(r)
+      full_tag = r
+      half_tag = r / 2
+      half_shift = half_tag % 1
+    }
+
     const canvas = document.getElementById("point-area")
     const size = 300
     canvas.width = size
@@ -164,44 +175,46 @@ class DesktopMainPage extends Component {
 
     console.log(size)
 
-    // rectangle
-    context.beginPath()
-    context.rect(size / 2, size / 4 + 10, 130, size / 4 - 10)
-    context.closePath()
-    context.strokeStyle = "#2f9aff"
-    context.fillStyle = "#2f9aff"
-    context.fill()
-    context.stroke()
+    if (full_tag !== "R") {
+      // rectangle
+      context.beginPath()
+      context.rect(size / 2, size / 4 + 10, 130, size / 4 - 10)
+      context.closePath()
+      context.strokeStyle = "#2f9aff"
+      context.fillStyle = "#2f9aff"
+      context.fill()
+      context.stroke()
 
-    // sector
-    context.beginPath()
-    context.moveTo(size / 2, size / 2)
-    context.arc(size / 2, size / 2, 130, Math.PI, - Math.PI / 2, false)
-    context.closePath()
-    context.strokeStyle = "#2f9aff"
-    context.fillStyle = "#2f9aff"
-    context.fill()
-    context.stroke()
+      // sector
+      context.beginPath()
+      context.moveTo(size / 2, size / 2)
+      context.arc(size / 2, size / 2, 130, Math.PI, - Math.PI / 2, false)
+      context.closePath()
+      context.strokeStyle = "#2f9aff"
+      context.fillStyle = "#2f9aff"
+      context.fill()
+      context.stroke()
 
-    // triangle
-    context.beginPath()
+      // triangle
+      context.beginPath()
 
-    context.moveTo(size / 2, size / 2)
-    context.lineTo(85, size / 2)
-    context.lineTo(size / 2, size - 20)
-    context.lineTo(size / 2, size / 2)
+      context.moveTo(size / 2, size / 2)
+      context.lineTo(85, size / 2)
+      context.lineTo(size / 2, size - 20)
+      context.lineTo(size / 2, size / 2)
 
-    context.closePath()
-    context.strokeStyle = "#2f9aff"
-    context.fillStyle = "#2f9aff"
-    context.fill()
-    context.stroke()
+      context.closePath()
+      context.strokeStyle = "#2f9aff"
+      context.fillStyle = "#2f9aff"
+      context.fill()
+      context.stroke()
+    }
 
     // axes
     context.beginPath()
     context.font = "10px Verdana"
-    context.strokeStyle = "black"
-    context.fillStyle = "black"
+    context.strokeStyle = "white"
+    context.fillStyle = "white"
 
     context.moveTo(size / 2, 0)
     context.lineTo(size / 2, size)
@@ -222,16 +235,6 @@ class DesktopMainPage extends Component {
     context.lineTo(290, 155)
 
     context.fillText("X", 292, 140)
-
-    // Radius-helpers for marks on axes
-    var full_tag = "R"
-    var half_tag = "R/2"
-    var half_shift = true
-    if (r !== "") {
-      full_tag = r
-      half_tag = r / 2
-      half_shift = half_tag % 1
-    }
 
     // Y marks on axes
     context.moveTo(145, 20)
@@ -268,8 +271,8 @@ class DesktopMainPage extends Component {
     context.fillText(full_tag, 277, 142)
 
     context.closePath()
-    context.strokeStyle = "black"
-    context.fillStyle = "black"
+    context.strokeStyle = "white"
+    context.fillStyle = "white"
     context.stroke()
   }
 
