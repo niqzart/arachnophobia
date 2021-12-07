@@ -56,10 +56,10 @@ class DesktopMainPage extends Component {
   render() {
     return <Grid
       container
-      spacing={4}
+      spacing={0}
       alignItems="center"
       justifyContent="center"
-      style={{ minHeight: "90vh" }}
+      style={{ minHeight: "90vh", marginTop: "12px" }}
     >
       <Grid item xs={6} style={{ textAlign: "center" }}>
         <Grid
@@ -104,12 +104,12 @@ class DesktopMainPage extends Component {
           }}
         />
       </Grid>
-      <Grid item xs={12} style={{ margin: "20px", height: 400, width: "100%" }}>
+      <Grid item xs={12} style={{ margin: "20px", height: "420px", width: "100%" }}>
         <DataGrid
           columns={["x", "y", "r", "inside", "result"].map((value) => this.createColumn(value))}
           rows={this.state.points.map((point, i) => { return { id: i, ...point } })}
-          pageSize={10}
-          rowsPerPageOptions={[10]}
+          pageSize={5}
+          rowsPerPageOptions={[5]}
         />
       </Grid>
     </Grid>
