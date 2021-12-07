@@ -9,7 +9,7 @@ class DesktopMainPage extends Component {
     x: "",
     y: "",
     r: "",
-    xError: true,
+    xError: false,
     yError: false,
     rError: false,
     points: [],
@@ -24,7 +24,8 @@ class DesktopMainPage extends Component {
       onClick={() => { this.setState({ xError: false, yError: false, rError: false }) }}
       onInput={(event) => {
         let value = event.target.value.replace(/[^0-9-+.]/gi, "")
-        if (!this.treatAsEmpty.includes(value)) {
+        if (value.search(/^[+-]?\d*(\.\d*)?$/) === -1) value = ""
+        else if (!this.treatAsEmpty.includes(value)) {
           let floatValue = parseFloat(value)
           if (floatValue > maxValue) value = maxValue.toString()
           else if (floatValue < minValue) value = minValue.toString()
@@ -49,7 +50,7 @@ class DesktopMainPage extends Component {
   addPoint(x, y) {
     this.drawPoint({ x, y })
     let points = this.state.points.slice()
-    points.push({ x, y, r: this.state.r })
+    points.push({ x: parseFloat(x), y: parseFloat(y), r: parseFloat(this.state.r) })
     this.setState({ points })
   }
 
@@ -81,7 +82,13 @@ class DesktopMainPage extends Component {
           <Grid item xs={3}>
             <Button
               variant="contained"
-              onClick={() => this.addPoint(this.state.x, this.state.y)}
+              onClick={() => {
+                const xError = this.treatAsEmpty.includes(this.state.x)
+                const yError = this.treatAsEmpty.includes(this.state.y)
+                const rError = this.treatAsEmpty.includes(this.state.r)
+                if (xError || yError || rError) this.setState({ xError, yError, rError })
+                else this.addPoint(this.state.x, this.state.y)
+              }}
             >
               Add Point
             </Button>
@@ -93,7 +100,7 @@ class DesktopMainPage extends Component {
           id="point-area"
           onClick={(event) => {
             if (this.treatAsEmpty.includes(this.state.r)) {
-              console.log("lol")
+              this.setState({ rError: true })
             } else {
               const canvas = document.getElementById("point-area")
               const br = canvas.getBoundingClientRect();
