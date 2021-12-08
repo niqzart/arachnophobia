@@ -89,7 +89,7 @@ class MainPageLayout extends Component {
           onClick={() => {
             const xError = this.treatAsEmpty.includes(this.state.x)
             const yError = this.treatAsEmpty.includes(this.state.y)
-            const rError = this.treatAsEmpty.includes(this.state.r)
+            const rError = this.treatAsEmpty.includes(this.state.r) || parseFloat(this.state.r) === 0
             if (xError || yError || rError) this.setState({ xError, yError, rError })
             else this.addPoint(this.state.x, this.state.y)
           }}
@@ -104,13 +104,13 @@ class MainPageLayout extends Component {
     return <canvas
       id="point-area"
       onClick={(event) => {
-        if (this.treatAsEmpty.includes(this.state.r)) {
+        if (this.treatAsEmpty.includes(this.state.r) || parseFloat(this.state.r) === 0) {
           this.setState({ rError: true })
         } else {
           const canvas = document.getElementById("point-area")
           const br = canvas.getBoundingClientRect();
-          const x = (event.clientX - br.left - canvas.width / 2) / 130 * this.state.r
-          const y = (-event.clientY + br.top + canvas.height / 2) / 130 * this.state.r
+          const x = (event.clientX - br.left - canvas.width / 2) / 130 * parseFloat(this.state.r)
+          const y = (-event.clientY + br.top + canvas.height / 2) / 130 * parseFloat(this.state.r)
           this.addPoint(x, y)
         }
       }}
@@ -212,7 +212,6 @@ class MainPageLayout extends Component {
 
   redrawPoints(R) {
     console.log("redrawPoints", R)
-    this.drawPicture(R)
     for (let point of this.state.points) this.drawPoint({ R, ...point })
   }
 
@@ -341,6 +340,8 @@ class MainPageLayout extends Component {
     context.strokeStyle = "white"
     context.fillStyle = "white"
     context.stroke()
+
+    if (full_tag !== "R") this.redrawPoints(r)
   }
 
   componentDidUpdate() {
