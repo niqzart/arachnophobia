@@ -1,4 +1,4 @@
-package entities;
+package lab4.entities;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

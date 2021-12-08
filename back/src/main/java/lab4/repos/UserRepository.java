@@ -1,9 +1,9 @@
-package repos;
+package lab4.repos;
 
-import entities.Point;
+import lab4.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PointRepository extends JpaRepository<Point, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 }
