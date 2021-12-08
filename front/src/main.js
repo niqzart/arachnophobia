@@ -163,10 +163,10 @@ class MainPageLayout extends Component {
             justifyContent="center"
             style={{ minHeight: "70vh", marginTop: "12px" }}
           >
-            <Grid item xs={6}>
+            <Grid item style={{ marginBottom: "30px"}}>
               {this.createForm()}
             </Grid>
-            <Grid item xs={6}>
+            <Grid item>
               {this.createCanvas()}
             </Grid>
           </Grid>
