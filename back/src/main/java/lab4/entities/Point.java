@@ -12,12 +12,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "points")
 public class Point {
-    private static boolean isInside(double x, double y, double r) {
-        if (x >= r) return false;
-        if (x > 0) return y >= 0 && y <= r / 2.;
-        return y >= Math.min(-2 * x - 1, 0) && y <= Math.sqrt(r * r - x * x);
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
@@ -31,18 +25,18 @@ public class Point {
     @Column(name = "r", nullable = false)
     private double r;
 
-    @Column(name = "inside", nullable = false)
-    private Boolean inside = false;
+    @Column(name = "result", nullable = false)
+    private Boolean result = false;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    public Point(double x, double y, double r, User user) {
+    public Point(double x, double y, double r, boolean result, User user) {
         this.x = x;
         this.y = y;
         this.r = r;
-        this.inside = isInside(x, y, r);
+        this.result = result;
         this.user = user;
     }
 }
