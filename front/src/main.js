@@ -158,7 +158,7 @@ class MainPageLayout extends Component {
         <TabPanel value="1">
           <Grid
             container
-            spacing={0}
+            spacing={4}
             alignItems="center"
             justifyContent="center"
             style={{ minHeight: "70vh", marginTop: "12px" }}
