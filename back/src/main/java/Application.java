@@ -1,4 +1,3 @@
-import repos.PointRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -7,6 +6,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import repos.PointRepository;
+import repos.UserRepository;
 
 @RestController
 @EnableAutoConfiguration
@@ -14,7 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
 @EnableJpaRepositories("repos")
 public class Application {
     @Autowired
-    private PointRepository repository;
+    private PointRepository pointRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @RequestMapping("/main")
     ModelAndView mainPage() {

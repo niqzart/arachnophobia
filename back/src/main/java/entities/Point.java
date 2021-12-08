@@ -34,10 +34,15 @@ public class Point {
     @Column(name = "inside", nullable = false)
     private Boolean inside = false;
 
-    public Point(double x, double y, double r) {
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
+
+    public Point(double x, double y, double r, User user) {
         this.x = x;
         this.y = y;
         this.r = r;
         this.inside = isInside(x, y, r);
+        this.user = user;
     }
 }
