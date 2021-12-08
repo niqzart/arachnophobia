@@ -46,15 +46,6 @@ class MainPageLayout extends Component {
     />
   }
 
-  createColumn(name) {
-    return {
-      field: name,
-      headerName: name.charAt(0).toUpperCase() + name.slice(1),
-      width: 150,
-      editable: true,
-    }
-  }
-
   pushPoint(x, y, r) {
     let points = this.state.points.slice()
     points.push({ x, y, r, result: isInside(x, y, r) })
@@ -117,6 +108,10 @@ class MainPageLayout extends Component {
     />
   }
 
+  createColumn(field, width) {
+    return { field, width, headerName: field.charAt(0).toUpperCase() + field.slice(1), editable: true }
+  }
+
   render() {
     const { desktop, tablet } = this.props
     if (tablet) {
@@ -136,7 +131,7 @@ class MainPageLayout extends Component {
         </Grid>
         <Grid item xs={12} style={{ margin: "20px", height: "420px", width: "100%" }}>
           <DataGrid
-            columns={["x", "y", "r", "result"].map((value) => this.createColumn(value))}
+            columns={["x", "y", "r", "result"].map((value) => this.createColumn(value, 150))}
             rows={this.state.points.map((point, i) => { return { id: i, ...point } })}
             pageSize={5}
             rowsPerPageOptions={[5]}
@@ -174,7 +169,7 @@ class MainPageLayout extends Component {
         <TabPanel value="2">
           <div style={{ display: "flex", alignItems: "center", height: "80vh" }} >
             <DataGrid
-              columns={["x", "y", "r", "result"].map((value) => this.createColumn(value))}
+              columns={["x", "y", "r", "result"].map((value) => this.createColumn(value, 90))}
               rows={this.state.points.map((point, i) => { return { id: i, ...point } })}
               pageSize={10}
               rowsPerPageOptions={[10]}
