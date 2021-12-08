@@ -31,7 +31,7 @@ class MainPageLayout extends Component {
       variant="outlined"
       onClick={() => { this.setState({ xError: false, yError: false, rError: false }) }}
       onInput={(event) => {
-        let value = event.target.value.replace(/[^0-9-+.]/gi, "")
+        let value = event.target.value.replace(/[^0-9-+.]/gi, "").substring(0, 4)
         if (value.search(/^[+-]?\d*(\.\d*)?$/) === -1) value = ""
         else if (!this.treatAsEmpty.includes(value)) {
           let floatValue = parseFloat(value)
@@ -111,7 +111,7 @@ class MainPageLayout extends Component {
           const br = canvas.getBoundingClientRect();
           const x = (event.clientX - br.left - canvas.width / 2) / 130 * parseFloat(this.state.r)
           const y = (-event.clientY + br.top + canvas.height / 2) / 130 * parseFloat(this.state.r)
-          this.addPoint(x, y)
+          this.addPoint(x.toFixed(2), y.toFixed(2))
         }
       }}
     />
