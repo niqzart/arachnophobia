@@ -113,6 +113,25 @@ class MainPageLayout extends Component {
         >
           Add Point
         </Button>
+        <Button
+          variant="contained"
+          color="error"
+          onClick={() => {
+            fetch("/api/users/signout/", {
+              method: "POST",
+              mode: "cors",
+              credentials: "include",
+              headers: { 'Content-Type': 'application/json' },
+            }).then(response => response.status === 200 ? response.json() : null)
+              .then(data => {
+                if (data !== null && data.message === "OK") console.log("all good") // redirect to the home page
+                else this.setState({ serverError: true })
+              })
+          }}
+          style={{ marginLeft: "20px" }}
+        >
+          Quit
+        </Button>
       </Grid>
     </Grid >
   }
