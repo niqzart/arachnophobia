@@ -6,9 +6,12 @@ import lab4.repos.UserRepository;
 import lab4.wrappers.UserWrapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,10 +23,16 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @RequestMapping("api/users/")
 public class UsersController {
-    private final JwtProvider jwtProvider;
+    @Bean
+    public PasswordEncoder encoder() {
+        return new BCryptPasswordEncoder();
+    }
 
+    private final JwtProvider jwtProvider;
     @Autowired
     private UserRepository repository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @PostMapping("/signin/")
     public ResponseEntity<?> signin(@RequestBody @Valid UserWrapper wrapper) {
@@ -31,7 +40,7 @@ public class UsersController {
         if (user == null) {
             return ResponseEntity.ok().body("{\"message\": \"User not found\"}");
         }
-        if (!user.getPassword().equals(wrapper.getPassword())) {
+        if (!passwordEncoder.matches(wrapper.getPassword(), user.getPassword())) {
             return ResponseEntity.ok().body("{\"message\": \"Wrong password\"}");
         }
         ResponseCookie resCookie = ResponseCookie.from("jwt", jwtProvider.createToken(user))
@@ -44,7 +53,7 @@ public class UsersController {
         if (repository.findByEmail(wrapper.getEmail()) != null) {
             return ResponseEntity.ok().body("{\"message\": \"Email in use\"}");
         }
-        User user = wrapper.toUser();
+        User user = wrapper.toUser(passwordEncoder);
         repository.save(user);
         ResponseCookie resCookie = ResponseCookie.from("jwt", jwtProvider.createToken(user))
                 .httpOnly(true).secure(true).path("/").maxAge(24 * 60 * 60).build();
