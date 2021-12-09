@@ -94,24 +94,25 @@ class SingIn extends Component {
         <Button
           variant="contained"
           onClick={() => {
-            if (this.state.email === "" || this.state.password === "") return this.setState({
+            this.setState({
               emailError: this.state.email === "" ? "Email can't be empty" : null,
               passwordError: this.state.password === "" ? "Password can't be empty" : null,
             })
 
-            fetch("http://localhost:8080/api/users/signin/", {
+            fetch("/api/users/signin/", {
               method: "POST",
               mode: "cors",
-              credentials: "omit",
+              credentials: "include",
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ email: this.state.email, password: this.state.password }),
-            }).then(response => response.status === 200 ? response.json() : null).then(data => {
-              if (data === null) this.setState({ serverError: true })
-              else if (data.message === "User not found") this.setState({ emailError: "User doesn't exist" })
-              else if (data.message === "Wrong password") this.setState({ passwordError: "Wrong password" })
-              else if (data.message === "OK") this.setState({}) // redirect to the main page
-              else console.error(data.message)
-            }).catch(e => console.log("lol", e.json()))
+            }).then(response => response.status === 200 ? response.json() : null)
+              .then(data => {
+                if (data === null) this.setState({ serverError: true })
+                else if (data.message === "User not found") this.setState({ emailError: "User doesn't exist" })
+                else if (data.message === "Wrong password") this.setState({ passwordError: "Wrong password" })
+                else if (data.message === "OK") this.setState({}) // redirect to the main page
+                else console.error(data.message)
+              }).catch(e => console.log("lol", e))
           }}
         >
           Sign In
@@ -171,15 +172,16 @@ class SingUp extends Component {
         <Button
           variant="contained"
           onClick={() => {
-            if (this.state.email === "" || this.state.username === "" || this.state.password === "") return this.setState({
+            this.setState({
               emailError: this.state.email === "" ? "Email can't be empty" : null,
+              usernameError: this.state.username === "" ? "Username can't be empty" : null,
               passwordError: this.state.password === "" ? "Password can't be empty" : null,
             })
 
-            fetch("http://localhost:8080/api/users/signup/", {
+            fetch("/api/users/signup/", {
               method: "POST",
               mode: "cors",
-              credentials: "omit",
+              credentials: "include",
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ email: this.state.email, username: this.state.username, password: this.state.password }),
             }).then(response => response.status === 200 ? response.json() : null).then(data => {
