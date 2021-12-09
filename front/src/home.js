@@ -4,6 +4,13 @@ import { TabContext, TabPanel, TabList } from "@mui/lab"
 import { Visibility, VisibilityOff, Email, AccountCircle } from "@mui/icons-material"
 import { Redirect } from "react-router"
 
+function validateEmail(email) {
+  if (String(email).toLowerCase()
+    .match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/))
+    return null
+  return "Email is invalid"
+}
+
 class TextField extends Component {
   constructor(props) {
     super()
@@ -173,7 +180,7 @@ class SingUp extends Component {
           variant="contained"
           onClick={() => {
             const errors = {
-              emailError: this.state.email === "" ? "Email can't be empty" : null,
+              emailError: this.state.email === "" ? "Email can't be empty" : validateEmail(this.state.email),
               usernameError: this.state.username === "" ? "Username can't be empty" : null,
               passwordError: this.state.password === "" ? "Password can't be empty" : null,
             }
