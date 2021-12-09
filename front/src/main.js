@@ -4,6 +4,7 @@ import { TabContext, TabPanel, TabList } from "@mui/lab"
 import { DataGrid } from '@mui/x-data-grid'
 
 function isInside(x, y, r) {
+  [ x, y, r ] = [x, y, r].map(parseFloat)
   if (x <= 0) return y <= x + r && y >= 0
   else if (y >= 0) return y * y + x * x <= (r * r) / 4
   else return y >= -r && x < r / 2
@@ -233,7 +234,7 @@ class MainPageLayout extends Component {
 
   redrawPoints(R) {
     console.log("redrawPoints", R)
-    for (let point of this.state.points) this.drawPoint({ R, ...point })
+    for (let point of this.state.points.slice().reverse()) this.drawPoint({ R, ...point })
   }
 
   drawPicture(r) {
