@@ -7,6 +7,7 @@ import { Provider, connect } from "react-redux"
 import store from "./stores"
 import { catchError } from "./stores"
 
+import FeedbackDialog from "./annoyance"
 import HomePage from "./home"
 import MainPage from "./main"
 
@@ -52,6 +53,8 @@ class App extends React.Component {
           Server Error Occurred
         </Alert>
       </Snackbar>
+
+      <FeedbackDialog />
     </ThemeProvider>
   }
 }
