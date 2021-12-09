@@ -1,6 +1,7 @@
 package lab4.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class WebSiteController {
     @RequestMapping("/main")
     ModelAndView mainPage() {
-        return new ModelAndView("forward:/");
+        Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return new ModelAndView((user == null || user.equals("anonymousUser")) ? "redirect:/" : "forward:/");
     }
 }
