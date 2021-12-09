@@ -46,8 +46,8 @@ public class JwtProvider {
     }
 
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = repository.findById(Long.parseLong(getUsernameFromToken(token))).get();
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+        UserDetails userDetails = repository.findById(Long.parseLong(getUsernameFromToken(token))).orElse(null);
+        return new UsernamePasswordAuthenticationToken(userDetails, "", null);
     }
 
     public String getUsernameFromToken(String token) {
