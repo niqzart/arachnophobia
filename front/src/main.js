@@ -10,6 +10,19 @@ function isInside(x, y, r) {
 }
 
 class MainPageLayout extends Component {
+  constructor() {
+    super()
+    fetch("/api/points/", {
+      method: "GET", mode: "cors", credentials: "include",
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then(response => response.status === 200 ? response.json() : null)
+      .then(data => {
+        if (data !== null) this.setState({ points: data })
+        else this.setState({ serverError: true })
+      })
+  }
+
   treatAsEmpty = ["", "-", "+", "."]
 
   state = {
@@ -21,6 +34,7 @@ class MainPageLayout extends Component {
     rError: false,
     points: [],
     mobileTab: "1",
+    serverError: false,
   }
 
   createNumberField(coordName, minValue, maxValue) {
@@ -46,15 +60,26 @@ class MainPageLayout extends Component {
     />
   }
 
-  pushPoint(x, y, r) {
+  pushPoint(point) {
     let points = this.state.points.slice()
-    points.push({ x, y, r, result: isInside(x, y, r) })
+    points.push(point)
     this.setState({ points })
   }
 
   addPoint(x, y) {
-    this.drawPoint({ x, y })
-    this.pushPoint(parseFloat(x), parseFloat(y), parseFloat(this.state.r))
+    const point = { x: parseFloat(x), y: parseFloat(y), r: parseFloat(this.state.r), result: isInside(x, y, this.state.r) }
+    fetch("/api/points/", {
+      method: "POST", mode: "cors", credentials: "include",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(point),
+    })
+      .then(response => response.status === 200 ? response.json() : null)
+      .then(data => {
+        if (data !== null && data.message === "OK") {
+          this.drawPoint({ x, y })
+          this.pushPoint(point)
+        }
+      })
   }
 
   createForm() {
@@ -113,6 +138,7 @@ class MainPageLayout extends Component {
   }
 
   render() {
+    console.log(this.state.points)
     const { desktop, tablet } = this.props
     if (tablet) {
       const style = desktop ? { width: "1042px", marginRight: "auto", marginLeft: "auto" } : { width: "100%" }
@@ -143,7 +169,7 @@ class MainPageLayout extends Component {
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <TabList onChange={(_, mobileTab) => {
             this.setState({ mobileTab }, () => {
-              if(mobileTab === "1") this.drawPicture(this.state.r)
+              if (mobileTab === "1") this.drawPicture(this.state.r)
             })
           }}>
             <Tab label="Inputs" value="1" />
@@ -158,7 +184,7 @@ class MainPageLayout extends Component {
             justifyContent="center"
             style={{ minHeight: "70vh", marginTop: "12px" }}
           >
-            <Grid item style={{ marginBottom: "30px"}}>
+            <Grid item style={{ marginBottom: "30px" }}>
               {this.createForm()}
             </Grid>
             <Grid item>
