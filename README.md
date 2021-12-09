@@ -118,3 +118,17 @@ bash wildfly/bin/standalone.sh
 - Для доступа к БД необходимо использовать Spring Data.
 
 ![areas](front/images/areas.png)
+
+### How to build:
+```shell
+cd front
+npm run build
+mv -rf bluid ../back/src/main/resources/static
+cd back
+mvn package
+```
+
+### How to run:
+```shell
+java -jar back/target/arachnophobia-4.0.jar
+```
