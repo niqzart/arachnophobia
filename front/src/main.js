@@ -3,6 +3,9 @@ import { Grid, TextField, Button, Box, useMediaQuery, Tab } from "@mui/material"
 import { TabContext, TabPanel, TabList } from "@mui/lab"
 import { DataGrid } from '@mui/x-data-grid'
 import { Redirect } from "react-router"
+import { connect } from "react-redux"
+
+import { raiseError } from "./stores"
 
 function isInside(x, y, r) {
   [ x, y, r ] = [x, y, r].map(parseFloat)
@@ -11,7 +14,7 @@ function isInside(x, y, r) {
   else return y >= -r && x < r / 2
 }
 
-class MainPageLayout extends Component {
+class MainPageLayout2 extends Component {
   constructor() {
     super()
     fetch("/api/points/", {
@@ -126,7 +129,7 @@ class MainPageLayout extends Component {
             }).then(response => response.status === 200 ? response.json() : null)
               .then(data => {
                 if (data !== null && data.message === "OK") this.props.setLoggedIn(false)
-                else this.setState({ serverError: true })
+                else this.props.raiseError()
               })
           }}
           style={{ marginLeft: "20px" }}
@@ -394,6 +397,8 @@ class MainPageLayout extends Component {
     this.drawPicture("")
   }
 }
+
+const MainPageLayout = connect(null, { raiseError })(MainPageLayout2)
 
 export default function MainPage() {
   const [loggedIn, setLoggedIn ] = useState(true)

@@ -3,6 +3,9 @@ import { Button, Box, Grid, TextField as BaseTextField, Tab, InputAdornment, Ico
 import { TabContext, TabPanel, TabList } from "@mui/lab"
 import { Visibility, VisibilityOff, Email, AccountCircle } from "@mui/icons-material"
 import { Redirect } from "react-router"
+import { connect } from "react-redux"
+
+import { raiseError } from "./stores"
 
 function validateEmail(email) {
   if (String(email).toLowerCase()
@@ -64,13 +67,12 @@ function IconTextField(props) {
   />
 }
 
-class SingIn extends Component {
+class SignIn2 extends Component {
   state = {
     email: "",
     password: "",
     emailError: null,
     passwordError: null,
-    serverError: false,
   }
 
   render() {
@@ -114,7 +116,7 @@ class SingIn extends Component {
               body: JSON.stringify({ email: this.state.email, password: this.state.password }),
             }).then(response => response.status === 200 ? response.json() : null)
               .then(data => {
-                if (data === null) this.setState({ serverError: true })
+                if (data === null) this.props.raiseError()
                 else if (data.message === "User not found") this.setState({ emailError: "User doesn't exist" })
                 else if (data.message === "Wrong password") this.setState({ passwordError: "Wrong password" })
                 else if (data.message === "OK") this.props.setLoggedIn(true)
@@ -129,7 +131,9 @@ class SingIn extends Component {
   }
 }
 
-class SingUp extends Component {
+const SignIn = connect(null, { raiseError })(SignIn2)
+
+class SignUp2 extends Component {
   state = {
     email: "",
     username: "",
@@ -137,7 +141,6 @@ class SingUp extends Component {
     emailError: null,
     usernameError: null,
     passwordError: null,
-    serverError: false,
   }
 
   render() {
@@ -193,7 +196,7 @@ class SingUp extends Component {
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ email: this.state.email, username: this.state.username, password: this.state.password }),
             }).then(response => response.status === 200 ? response.json() : null).then(data => {
-              if (data === null) this.setState({ serverError: true })
+              if (data === null) this.props.raiseError()
               else if (data.message === "Email in use") this.setState({ emailError: "Email already in use" })
               else if (data.message === "OK") this.props.setLoggedIn(true)
               else console.error(data.message)
@@ -205,6 +208,8 @@ class SingUp extends Component {
   }
 }
 
+const SignUp = connect(null, { raiseError })(SignUp2)
+
 function DesktopHomePage({ desktop, setLoggedIn }) {
   const style = desktop ? { width: "1042px", marginRight: "auto", marginLeft: "auto" } : {}
   return <Grid
@@ -215,10 +220,10 @@ function DesktopHomePage({ desktop, setLoggedIn }) {
     style={{ minHeight: "90vh", ...style }}
   >
     <Grid item xs={6}>
-      <SingUp setLoggedIn={setLoggedIn} />
+      <SignUp setLoggedIn={setLoggedIn} />
     </Grid>
     <Grid item xs={6}>
-      <SingIn setLoggedIn={setLoggedIn} />
+      <SignIn setLoggedIn={setLoggedIn} />
     </Grid>
   </Grid>
 }
@@ -239,12 +244,12 @@ function MobileHomePage({ setLoggedIn }) {
     </Box>
     <TabPanel value="1">
       <div style={{ display: "flex", alignItems: "center", minHeight: "70vh" }} >
-        <SingUp setLoggedIn={setLoggedIn} />
+        <SignUp setLoggedIn={setLoggedIn} />
       </div>
     </TabPanel>
     <TabPanel value="2">
       <div style={{ display: "flex", alignItems: "center", minHeight: "70vh" }} >
-        <SingIn setLoggedIn={setLoggedIn} />
+        <SignIn setLoggedIn={setLoggedIn} />
       </div>
     </TabPanel>
   </TabContext>
