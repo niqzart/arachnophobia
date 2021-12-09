@@ -38,6 +38,7 @@ class PasswordField extends Component {
           </IconButton>
         </InputAdornment>
       }}
+      {...this.props}
     />
   }
 }
@@ -58,13 +59,13 @@ function IconTextField(props) {
 class SingIn extends Component {
   state = {
     email: "",
-    username: "",
     password: "",
-    errors: [],
+    emailError: null,
+    passwordError: null,
+    serverError: false,
   }
 
   render() {
-    console.log(0)
     return <Grid
       container
       spacing={1}
@@ -73,14 +74,44 @@ class SingIn extends Component {
       justifyContent="center"
     >
       <Grid item xs={3}>
-        <IconTextField label="Email or Username" variant="outlined" icon={<AccountCircle />} />
+        <IconTextField
+          label="Email"
+          variant="outlined"
+          icon={<Email />}
+          helperText={this.state.emailError}
+          error={this.state.emailError !== null}
+          onSetValue={value => { this.setState({ email: value, emailError: null }) }}
+        />
       </Grid>
       <Grid item xs={3}>
-        <PasswordField onSetValue={console.log} />
+        <PasswordField
+          helperText={this.state.passwordError}
+          error={this.state.passwordError !== null}
+          onSetValue={value => { this.setState({ password: value, passwordError: null }) }}
+        />
       </Grid>
       <Grid item xs={3}>
         <Button
           variant="contained"
+          onClick={() => {
+            if (this.state.email === "" || this.state.password === "") return this.setState({
+              emailError: this.state.email === "" ? "Email can't be empty" : null,
+              passwordError: this.state.password === "" ? "Password can't be empty" : null,
+            })
+
+            fetch("http://localhost:8080/api/users/signin/", {
+              method: "POST", 
+              mode: "cors", 
+              credentials: "omit", 
+              headers: { 'Content-Type': 'application/json' }, 
+              body: JSON.stringify({ email: this.state.email, password: this.state.password }),
+            }).then(response => response.status === 200 ? response.json() : null).then(data => {
+              if (data === null) this.setState({ serverError: true })
+              else if (data.message === "User not found") this.setState({ emailError: "User doesn't exist" })
+              else if (data.message === "Wrong password") this.setState({ passwordError: "Wrong password" })
+              else console.error(data.message)
+            }).catch(e => console.log("lol", e.json()))
+          }}
         >
           Sign In
         </Button>
@@ -122,7 +153,7 @@ class SingUp extends Component {
 }
 
 function DesktopHomePage({ desktop }) {
-  const style = desktop ? { width: "1042px", marginRight: "auto", marginLeft: "auto" } : { }
+  const style = desktop ? { width: "1042px", marginRight: "auto", marginLeft: "auto" } : {}
   return <Grid
     container
     spacing={4}
