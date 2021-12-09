@@ -100,15 +100,16 @@ class SingIn extends Component {
             })
 
             fetch("http://localhost:8080/api/users/signin/", {
-              method: "POST", 
-              mode: "cors", 
-              credentials: "omit", 
-              headers: { 'Content-Type': 'application/json' }, 
+              method: "POST",
+              mode: "cors",
+              credentials: "omit",
+              headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ email: this.state.email, password: this.state.password }),
             }).then(response => response.status === 200 ? response.json() : null).then(data => {
               if (data === null) this.setState({ serverError: true })
               else if (data.message === "User not found") this.setState({ emailError: "User doesn't exist" })
               else if (data.message === "Wrong password") this.setState({ passwordError: "Wrong password" })
+              else if (data.message === "OK") this.setState({}) // redirect to the main page
               else console.error(data.message)
             }).catch(e => console.log("lol", e.json()))
           }}
@@ -125,7 +126,10 @@ class SingUp extends Component {
     email: "",
     username: "",
     password: "",
-    errors: [],
+    emailError: null,
+    usernameError: null,
+    passwordError: null,
+    serverError: false,
   }
 
   render() {
@@ -137,16 +141,55 @@ class SingUp extends Component {
       justifyContent="center"
     >
       <Grid item xs={12}>
-        <IconTextField label="Email" variant="outlined" icon={<Email />} />
+        <IconTextField
+          label="Email"
+          variant="outlined"
+          icon={<Email />}
+          helperText={this.state.emailError}
+          error={this.state.emailError !== null}
+          onSetValue={value => { this.setState({ email: value, emailError: null }) }}
+        />
       </Grid>
       <Grid item xs={12}>
-        <IconTextField label="Username" variant="outlined" icon={<AccountCircle />} />
+        <IconTextField
+          label="Username"
+          variant="outlined"
+          icon={<AccountCircle />}
+          helperText={this.state.usernameError}
+          error={this.state.usernameError !== null}
+          onSetValue={value => { this.setState({ username: value, usernameError: null }) }}
+        />
       </Grid>
       <Grid item xs={12}>
-        <PasswordField />
+        <PasswordField
+          helperText={this.state.passwordError}
+          error={this.state.passwordError !== null}
+          onSetValue={value => { this.setState({ password: value, passwordError: null }) }}
+        />
       </Grid>
       <Grid item xs={12}>
-        <Button variant="contained" >Sing Up</Button>
+        <Button
+          variant="contained"
+          onClick={() => {
+            if (this.state.email === "" || this.state.username === "" || this.state.password === "") return this.setState({
+              emailError: this.state.email === "" ? "Email can't be empty" : null,
+              passwordError: this.state.password === "" ? "Password can't be empty" : null,
+            })
+
+            fetch("http://localhost:8080/api/users/signup/", {
+              method: "POST",
+              mode: "cors",
+              credentials: "omit",
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email: this.state.email, username: this.state.username, password: this.state.password }),
+            }).then(response => response.status === 200 ? response.json() : null).then(data => {
+              if (data === null) this.setState({ serverError: true })
+              else if (data.message === "Email in use") this.setState({ emailError: "Email already in use" })
+              else if (data.message === "OK") this.setState({}) // redirect to the main page
+              else console.error(data.message)
+            }).catch(e => console.log("lol", e.json()))
+          }}
+        >Sing Up</Button>
       </Grid>
     </Grid>
   }
