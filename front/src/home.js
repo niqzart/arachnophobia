@@ -2,6 +2,7 @@ import { Component, useState } from "react"
 import { Button, Box, Grid, TextField as BaseTextField, Tab, InputAdornment, IconButton, useMediaQuery } from "@mui/material"
 import { TabContext, TabPanel, TabList } from "@mui/lab"
 import { Visibility, VisibilityOff, Email, AccountCircle } from "@mui/icons-material"
+import { Redirect } from "react-router"
 
 class TextField extends Component {
   constructor(props) {
@@ -94,12 +95,11 @@ class SingIn extends Component {
         <Button
           variant="contained"
           onClick={() => {
-            this.setState({
+            if (this.state.email === "" || this.state.password === "") this.setState({
               emailError: this.state.email === "" ? "Email can't be empty" : null,
               passwordError: this.state.password === "" ? "Password can't be empty" : null,
             })
-
-            fetch("/api/users/signin/", {
+            else fetch("/api/users/signin/", {
               method: "POST",
               mode: "cors",
               credentials: "include",
@@ -110,7 +110,7 @@ class SingIn extends Component {
                 if (data === null) this.setState({ serverError: true })
                 else if (data.message === "User not found") this.setState({ emailError: "User doesn't exist" })
                 else if (data.message === "Wrong password") this.setState({ passwordError: "Wrong password" })
-                else if (data.message === "OK") this.setState({}) // redirect to the main page
+                else if (data.message === "OK") this.props.setLoggedIn(true)
                 else console.error(data.message)
               }).catch(e => console.log("lol", e))
           }}
@@ -172,13 +172,14 @@ class SingUp extends Component {
         <Button
           variant="contained"
           onClick={() => {
-            this.setState({
+            const errors = {
               emailError: this.state.email === "" ? "Email can't be empty" : null,
               usernameError: this.state.username === "" ? "Username can't be empty" : null,
               passwordError: this.state.password === "" ? "Password can't be empty" : null,
-            })
-
-            fetch("/api/users/signup/", {
+            }
+            console.log(errors)
+            if (errors.emailError || errors.usernameError || errors.passwordError) this.setState(errors)
+            else fetch("/api/users/signup/", {
               method: "POST",
               mode: "cors",
               credentials: "include",
@@ -187,7 +188,7 @@ class SingUp extends Component {
             }).then(response => response.status === 200 ? response.json() : null).then(data => {
               if (data === null) this.setState({ serverError: true })
               else if (data.message === "Email in use") this.setState({ emailError: "Email already in use" })
-              else if (data.message === "OK") this.setState({}) // redirect to the main page
+              else if (data.message === "OK") this.props.setLoggedIn(true)
               else console.error(data.message)
             }).catch(e => console.log("lol", e.json()))
           }}
@@ -197,7 +198,7 @@ class SingUp extends Component {
   }
 }
 
-function DesktopHomePage({ desktop }) {
+function DesktopHomePage({ desktop, setLoggedIn }) {
   const style = desktop ? { width: "1042px", marginRight: "auto", marginLeft: "auto" } : {}
   return <Grid
     container
@@ -207,15 +208,15 @@ function DesktopHomePage({ desktop }) {
     style={{ minHeight: "90vh", ...style }}
   >
     <Grid item xs={6}>
-      <SingUp />
+      <SingUp setLoggedIn={setLoggedIn} />
     </Grid>
     <Grid item xs={6}>
-      <SingIn />
+      <SingIn setLoggedIn={setLoggedIn} />
     </Grid>
   </Grid>
 }
 
-function MobileHomePage() {
+function MobileHomePage({ setLoggedIn }) {
   const [value, setValue] = useState('1')
 
   const handleChange = (_, newValue) => {
@@ -231,19 +232,21 @@ function MobileHomePage() {
     </Box>
     <TabPanel value="1">
       <div style={{ display: "flex", alignItems: "center", minHeight: "70vh" }} >
-        <SingUp />
+        <SingUp setLoggedIn={setLoggedIn} />
       </div>
     </TabPanel>
     <TabPanel value="2">
       <div style={{ display: "flex", alignItems: "center", minHeight: "70vh" }} >
-        <SingIn />
+        <SingIn setLoggedIn={setLoggedIn} />
       </div>
     </TabPanel>
   </TabContext>
 }
 
 export default function HomePage() {
+  const [loggedIn, setLoggedIn ] = useState(false)
   const desktop = useMediaQuery('(min-width:1043px)')
   const tablet = useMediaQuery('(min-width:750px)')
-  return tablet ? <DesktopHomePage desktop={desktop} /> : <MobileHomePage />
+  if (loggedIn) return <Redirect to="/main" />
+  return tablet ? <DesktopHomePage desktop={desktop} setLoggedIn={setLoggedIn} /> : <MobileHomePage setLoggedIn={setLoggedIn} />
 }

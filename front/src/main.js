@@ -1,7 +1,8 @@
-import { Component } from "react"
+import { Component, useState } from "react"
 import { Grid, TextField, Button, Box, useMediaQuery, Tab } from "@mui/material"
 import { TabContext, TabPanel, TabList } from "@mui/lab"
 import { DataGrid } from '@mui/x-data-grid'
+import { Redirect } from "react-router"
 
 function isInside(x, y, r) {
   [ x, y, r ] = [x, y, r].map(parseFloat)
@@ -124,7 +125,7 @@ class MainPageLayout extends Component {
               headers: { 'Content-Type': 'application/json' },
             }).then(response => response.status === 200 ? response.json() : null)
               .then(data => {
-                if (data !== null && data.message === "OK") console.log("all good") // redirect to the home page
+                if (data !== null && data.message === "OK") this.props.setLoggedIn(false)
                 else this.setState({ serverError: true })
               })
           }}
@@ -216,7 +217,7 @@ class MainPageLayout extends Component {
           <div style={{ display: "flex", alignItems: "center", height: "80vh" }} >
             <DataGrid
               columns={["x", "y", "r", "result"].map((value) => this.createColumn(value, 90))}
-              rows={this.state.points.map((point, i) => { return { id: i, ...point } })}
+              rows={this.state.points.slice().reverse().map((point, i) => { return { id: i, ...point } })}
               pageSize={10}
               rowsPerPageOptions={[10]}
             />
@@ -253,7 +254,7 @@ class MainPageLayout extends Component {
 
   redrawPoints(R) {
     console.log("redrawPoints", R)
-    for (let point of this.state.points.slice().reverse()) this.drawPoint({ R, ...point })
+    for (let point of this.state.points) this.drawPoint({ R, ...point })
   }
 
   drawPicture(r) {
@@ -395,7 +396,9 @@ class MainPageLayout extends Component {
 }
 
 export default function MainPage() {
+  const [loggedIn, setLoggedIn ] = useState(true)
   const desktop = useMediaQuery('(min-width:1043px)')
   const tablet = useMediaQuery('(min-width:750px)')
-  return <MainPageLayout desktop={desktop} tablet={tablet} />
+  if (!loggedIn) return <Redirect to="/" />
+  return <MainPageLayout desktop={desktop} tablet={tablet} setLoggedIn={setLoggedIn} />
 }
