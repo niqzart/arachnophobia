@@ -8,6 +8,7 @@ import lab4.entities.User;
 import lab4.repos.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,7 +28,8 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class JwtProvider {
     private final UserRepository repository;
-    private String secretKey = "temp";
+    @Value("${spring.security.jwt-secret}")
+    private String secretKey;
 
     @PostConstruct
     protected void init() {
